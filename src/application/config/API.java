@@ -4,7 +4,7 @@ public class API {
 	
 	public static final String SECURITY = "/security";
 	
-	public static final String ADD_USER = "/addUser";
+//	public static final String ADD_USER = "/addUser";
 	public static final String ADD_OWNER = "/addOwner";
 	public static final String ADD_ACCOUNT = "/addAccount";
 	public static final String GRANT_ROLE = "/grantRole";
