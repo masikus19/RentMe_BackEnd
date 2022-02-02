@@ -13,6 +13,7 @@ public class API {
 	public static final String GET_ROLES_BY_LOGIN = "/getRolesByLogin";
 	public static final String REMOVE_ACCOUNT = "/removeAccount";
 	public static final String REMOVE_USER = "/removeUser";
+	public static final String REMOVE_OWNER = "/removeOwner";
 	public static final String CHANGE_PASSWORD = "/changePassword";
 	public static final String REVOKE_ACCOUNT = "/revokeAccount";
 	public static final String ACTIVATE_ACCOUNT = "/activateAccount";

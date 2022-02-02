@@ -12,12 +12,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import application.security.entities.Account;
-import application.security.repositories.AccountMongoRepository;
+import application.security.repositories.AccountRepository;
 
 @Component
 public class UserLoader implements UserDetailsService{
 	
-	@Autowired AccountMongoRepository accountRepo;
+	@Autowired AccountRepository accountRepo;
 
 	@Override
 	@Transactional(readOnly = true)

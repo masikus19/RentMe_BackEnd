@@ -9,21 +9,19 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import application.security.configuration.AccountingParameters;
 import application.security.entities.Account;
-import application.security.repositories.AccountMongoRepository;
+import application.security.repositories.AccountRepository;
 
-@Transactional
 @Service
 public class SecurityService implements ISecurityService {
 	
-	@Autowired AccountMongoRepository accountRepo;
+	@Autowired AccountRepository accountRepo;
 	@Autowired PasswordEncoder encoder;
 	@Autowired AccountingParameters parameters;
 	
-	@Transactional(readOnly = true)
 	private Account getAccount(String login) {
 		checkLogin(login);
 		Account account = accountRepo.findById(login).orElse(null);
@@ -33,7 +31,7 @@ public class SecurityService implements ISecurityService {
 	}
 	
 	@Override
-	public Account addUser(String login, String password) 
+	public synchronized Account addUser(String login, String password) 
 	{
 		isAccountExists(login);
 		checkPassword(password);
@@ -41,7 +39,7 @@ public class SecurityService implements ISecurityService {
 	}
 	
 	@Override
-	public Account addOwner(String login, String password) 
+	public synchronized Account addOwner(String login, String password) 
 	{
 		isAccountExists(login);
 		checkPassword(password);
@@ -87,7 +85,6 @@ public class SecurityService implements ISecurityService {
 	}
 	
 	@Override
-	@Transactional(readOnly = true)
 	public Set<String> getRolesByLogin(String login) 
 	{
 		Account account = getAccount(login);	
@@ -95,7 +92,6 @@ public class SecurityService implements ISecurityService {
 	}
 	
 	@Override
-	@Transactional(readOnly = true)
 	public List<Account> getAllAccounts() 
 	{
 		return accountRepo.findAll();
@@ -121,7 +117,18 @@ public class SecurityService implements ISecurityService {
 	}
 	
 	@Override
-	public Account changePassword(String login, String password) 
+	public Account removeOwner(String login) 
+	{
+		Account account = getAccount(login);
+		Set<String> roles = account.getRoles();
+		if((roles.size()==1 && !roles.contains("ROLE_OWNER")) || roles.size()>1)
+			throw new BadRequestException("Removal not authorized");
+		accountRepo.deleteById(login);
+		return account;
+	}
+	
+	@Override
+	public synchronized Account changePassword(String login, String password) 
 	{
 		checkPassword(password);
 		Account account = getAccount(login);

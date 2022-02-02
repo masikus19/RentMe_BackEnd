@@ -4,6 +4,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import application.security.entities.Account;
 
-public interface AccountMongoRepository extends MongoRepository<Account, String>{
+public interface AccountRepository extends MongoRepository<Account, String>{
 
 }

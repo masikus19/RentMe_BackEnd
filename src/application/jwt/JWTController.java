@@ -10,11 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import application.security.dto.AuthPair;
 import application.security.dto.RegisterDto;
-import application.security.entities.Account;
-import application.security.repositories.AccountMongoRepository;
-import application.security.services.BadRequestException;
+import application.security.repositories.AccountRepository;
 import application.security.services.ISecurityService;
 
 @RestController
@@ -23,7 +20,7 @@ public class JWTController {
 
 	@Autowired JWTTokenUtil jwtTokenUtil;
 	@Autowired ISecurityService service;
-	@Autowired AccountMongoRepository accountRepo;
+	@Autowired AccountRepository accountRepo;
 	
 	@PostMapping("/authenticate")
 	public ResponseEntity<?> createToken() throws Exception{

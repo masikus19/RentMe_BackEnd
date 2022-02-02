@@ -70,6 +70,11 @@ public class SecurityController {
 		return Mapper.accountDto(service.removeUser(login));
 	};
 	
+	@DeleteMapping(REMOVE_OWNER)
+	public AccountDto removeOwner(String login) {
+		return Mapper.accountDto(service.removeOwner(login));
+	}
+	
 	@PutMapping(CHANGE_PASSWORD)
 	public AccountDto changePassword(@RequestBody AuthPair authPair) {
 		return Mapper.accountDto(service.changePassword(authPair.getLogin(), authPair.getPassword()));

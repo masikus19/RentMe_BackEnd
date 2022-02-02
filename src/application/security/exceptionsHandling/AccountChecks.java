@@ -13,17 +13,17 @@ import org.springframework.stereotype.Component;
 
 import application.security.configuration.AccountingParameters;
 import application.security.entities.Account;
-import application.security.repositories.AccountMongoRepository;
+import application.security.repositories.AccountRepository;
 import application.security.services.BadRequestException;
 
 @Component
 public class AccountChecks 
 {
 	@Autowired PasswordEncoder autowiredEncoder;
-	@Autowired AccountMongoRepository autowiredAccountRepo;
+	@Autowired AccountRepository autowiredAccountRepo;
 	@Autowired AccountingParameters autowiredParametres;
 	
-	private static AccountMongoRepository accountRepo;
+	private static AccountRepository accountRepo;
 	private static PasswordEncoder encoder;
 	private static AccountingParameters parameters;
 	private static List<String> allowedRoles;

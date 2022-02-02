@@ -16,10 +16,12 @@ public interface ISecurityService {
 	List<Account> getAllAccounts();
 	Account removeAccount(String login);
 	Account removeUser(String login);
+	Account removeOwner(String login);
 	
 	Account changePassword(String login, String password);
 	Account revokeAccount(String login);
 	Account activateAccount(String login);
+	
 
 	
 
