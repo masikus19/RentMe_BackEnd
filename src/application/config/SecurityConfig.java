@@ -45,10 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 											API.SECURITY + API.REVOKE_ACCOUNT,
 											API.SECURITY + API.ACTIVATE_ACCOUNT,
 											API.APP + API.MANAGER).hasAnyRole("ADMIN", "MANAGER");
-		
-		// OWNER and USER only
-//		http.authorizeRequests().mvcMatchers(API.SECURITY + API.CHANGE_PASSWORD).hasAnyRole("OWNER","USER");
-		
+				
 		//OWNER
 		http.authorizeRequests().mvcMatchers(API.APP + API.OWNER).hasRole("OWNER");	
 		

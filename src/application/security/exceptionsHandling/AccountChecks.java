@@ -8,6 +8,7 @@ import java.util.Set;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -91,6 +92,11 @@ public class AccountChecks
 	{
 		if(account.isRevoked())
 			throw new BadRequestException("Account revoked");	
+	}
+	
+	public static void checkLoginAuth(String login){
+		if(!SecurityContextHolder.getContext().getAuthentication().getName().equals(login))
+			throw new BadRequestException("You have no rights for change password");
 	}
 	
 	@PostConstruct

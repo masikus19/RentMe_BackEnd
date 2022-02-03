@@ -1,6 +1,7 @@
 package application.security.services;
 
 import static application.security.exceptionsHandling.AccountChecks.*;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -9,8 +10,6 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
-
 import application.security.configuration.AccountingParameters;
 import application.security.entities.Account;
 import application.security.repositories.AccountRepository;
@@ -127,10 +126,12 @@ public class SecurityService implements ISecurityService {
 		return account;
 	}
 	
+
 	@Override
 	public synchronized Account changePassword(String login, String password) 
 	{
 		checkPassword(password);
+		checkLoginAuth(login);
 		Account account = getAccount(login);
 		String currentPassword = account.getPassword();
 		isCurrentPassword(password, currentPassword);
