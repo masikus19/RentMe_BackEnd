@@ -25,7 +25,6 @@ public class UserLoader implements UserDetailsService{
 		
 		Account account = accountRepo.findById(login).orElse(null);
 		if(account == null) throw new UsernameNotFoundException("Login not registered");
-		if(account.isRevoked()) throw new UsernameNotFoundException("Account revoked");
 		Set<String> roles = account.getRoles();
 		return new User(login, 
 						account.getPassword(),

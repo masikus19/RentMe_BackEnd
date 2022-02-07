@@ -15,7 +15,7 @@ public class JWTAuthenticationEntryPoint implements AuthenticationEntryPoint{
 	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response,
 						AuthenticationException authException) throws IOException {
-		String msg = (String) request.getAttribute("wrongToken");
+		String msg = (String) request.getAttribute("revoked");
 		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.getWriter().println("Unauthenticated: " + (msg == null ? "Wrong login-password pair" : msg));
 	}

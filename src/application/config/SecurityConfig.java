@@ -6,15 +6,18 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import application.jwt.JWTAuthenticationEntryPoint;
 import application.jwt.JWTFilter;
+import application.jwt.RevokedFilter;
 
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired JWTAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 	@Autowired JWTFilter jwtFilter;
+	@Autowired RevokedFilter revoke;
 	
 	@Override
 	protected void configure(HttpSecurity http)throws Exception{
@@ -36,7 +39,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 											API.SECURITY + API.GET_ALL_ACCOUNTS,
 											API.SECURITY + API.GET_ROLES_BY_LOGIN,
 											API.SECURITY + API.REMOVE_ACCOUNT,											
-											
+											API.APP + API.ADD_RENTER,
+											API.APP + API.ADD_LESSOR,
 											API.APP + API.ADMIN).hasRole("ADMIN");
 		// ADMIN and MANAGER only
 		http.authorizeRequests().mvcMatchers(
@@ -50,7 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests().mvcMatchers(API.APP + API.OWNER).hasRole("OWNER");	
 		
 		//USER
-		http.authorizeRequests().mvcMatchers(API.APP + API.USER).hasRole("USER");	
+		http.authorizeRequests().mvcMatchers(API.APP + API.RENTER).hasRole("USER");	
 				
 		//everybody
 		http.authorizeRequests().mvcMatchers(
@@ -63,7 +67,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		// close everything else for not authenticated
 		http.authorizeRequests().anyRequest().authenticated();	
 			
+		http.addFilterAfter(revoke, BasicAuthenticationFilter.class);
 		http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+		
 	}
 }
 
