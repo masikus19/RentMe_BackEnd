@@ -14,7 +14,7 @@ import lombok.*;
 
 @NoArgsConstructor
 @Getter @Setter
-@EqualsAndHashCode(of = {"email"})
+@EqualsAndHashCode(of = {"login"})
 
 @Entity
 @Table(name = "owner")
@@ -22,9 +22,10 @@ public class Owner {
 	
 	@Id
 	@Column(length=100)
+	String login;
+	
 	@Email
 	String email;
-	
 	String firstName;
 	String lastName;
 	String numberTelephone;
@@ -33,12 +34,20 @@ public class Owner {
 	@OneToMany(mappedBy = "owner")
 	List<RealtyObject> realtyObjects = new ArrayList<>();
 	
-	public Owner(String email, String firstName, String lastName, String numberTelephone, String aboutMe) {
+	@OneToMany(mappedBy = "owner")
+	List<MessageToOwner> messages = new ArrayList<>();
+	
+
+	public Owner(String login, @Email String email, String firstName, String lastName, String numberTelephone,
+			String aboutMe) {
 		super();
+		this.login = login;
 		this.email = email;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.numberTelephone = numberTelephone;
 		this.aboutMe = aboutMe;
 	}
+	
+	
 }
