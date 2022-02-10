@@ -26,9 +26,13 @@ public class Owner {
 	
 	@Email
 	String email;
+	@Column(name = "first_name")
 	String firstName;
+	@Column(name = "last_name")
 	String lastName;
+	@Column(name = "number_telephone")
 	String numberTelephone;
+	@Column(name = "about_me")
 	String aboutMe;
 	
 	@OneToMany(mappedBy = "owner")

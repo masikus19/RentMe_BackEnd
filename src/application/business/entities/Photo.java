@@ -1,9 +1,11 @@
 package application.business.entities;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -24,9 +26,14 @@ public class Photo {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int id;
 	
-	@ManyToOne
-	RealtyObject realtyObject;
 	String url;
+	@ManyToOne
+	@JoinColumn(name = "realty_object")
+	RealtyObject realtyObject;
 	
-
+	public Photo(String url, RealtyObject realtyObject) {
+		super();
+		this.url = url;
+		this.realtyObject = realtyObject;
+	}
 }

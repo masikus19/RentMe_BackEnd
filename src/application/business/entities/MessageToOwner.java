@@ -1,5 +1,6 @@
 package application.business.entities;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,10 +23,13 @@ public class MessageToOwner {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	int id;
+	long id;
 	
+	@Column(name = "renter_name")
 	String nameOfRenter;
+	@Column(name = "phone_renter")
 	String phoneOfRenter;
+	@Column(name = "email_renter")
 	String emailOfRenter;
 	String message;
 	@ManyToOne

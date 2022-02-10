@@ -18,17 +18,22 @@ import lombok.Setter;
 
 @NoArgsConstructor
 @Getter @Setter
-@EqualsAndHashCode(of = {"email"})
+@EqualsAndHashCode(of = {"login"})
 
 @Entity
 @Table(name = "renter")
 public class Renter 
 {
-	String firstName;
-	String lastName;
-	String numberTelephone;
 	@Id
 	@Column(length=100)
+	String login;
+	@Column(name = "first_name")
+	String firstName;
+	@Column(name = "last_name")
+	String lastName;
+	@Column(name = "number_telephone")
+	String numberTelephone;
+	
 	String email;
 	
 	@OneToMany(mappedBy = "renter")
@@ -37,8 +42,9 @@ public class Renter
 	@OneToMany(mappedBy = "renter")
 	Set<RentedObject> favorites = new HashSet<RentedObject>();
 
-	public Renter(String firstName, String lastName, String numberTelephone, String email) {
+	public Renter(String login, String firstName, String lastName, String numberTelephone, String email) {
 		super();
+		this.login = login;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.numberTelephone = numberTelephone;
