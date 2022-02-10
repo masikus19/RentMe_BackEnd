@@ -1,28 +1,41 @@
 package application.business.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.OneToMany;
+
 import org.springframework.data.annotation.Id;
 
+import application.business.service.GuestService;
+import application.business.service.IGuestService;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+
 
 @NoArgsConstructor
 @Getter
 @Setter
 public class User {
 	
-	@Id
+	
 	String firstName;
 	String lastName;
 	String phone;
+	@Id
 	String email;
 	
-	public User(String firstName, String lastName, String phone, String email) {
+	@OneToMany(mappedBy = "user")
+	List<Apartment> rentHistory = new ArrayList<>();
+	
+	public  User(GuestService guest) {
 		super();
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.phone = phone;
-		this.email = email;
+		firstName = guest.GetFirstName();
+		lastName = guest.GetLastName();
+		phone = guest.GetPhone();
+		email = guest.GetEmail();
 	}
 	
 	
