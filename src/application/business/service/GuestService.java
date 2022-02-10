@@ -6,13 +6,13 @@ import java.util.regex.Pattern;
 public class GuestService implements IGuestService {
 
 	
-	String FirstName ="";
-	String LastName = "";
-	String Phone = "";
-	String Email = "";
+	private String FirstName ="";
+	private String LastName = "";
+	private String Phone = "";
+	private String Email = "";
 	
 	@Override
-	public boolean AddFirstName(String firstName) {
+	public boolean addFirstName(String firstName) {
 		
 		if(firstName == null || firstName.isEmpty()) return false;
 		if(isDigit(firstName) || !isLetter(firstName)) return false;
@@ -21,7 +21,7 @@ public class GuestService implements IGuestService {
 	}
 
 	@Override
-	public boolean AddLastName(String lastName) {
+	public boolean addLastName(String lastName) {
 		
 		if(lastName == null || lastName.isEmpty()) return false;
 		if(isDigit(lastName) || !isLetter(lastName)) return false;
@@ -30,7 +30,7 @@ public class GuestService implements IGuestService {
 	}
 
 	@Override
-	public boolean AddPhone(String phoneNumber) {
+	public boolean addPhone(String phoneNumber) {
 		
 		if(phoneNumber == null || phoneNumber.isEmpty()) return false;
 		if (!isDigit(phoneNumber)) return false;
@@ -39,7 +39,7 @@ public class GuestService implements IGuestService {
 	}
 
 	@Override
-	public boolean AddEmail(String email) {
+	public boolean addEmail(String email) {
 		if(email == null || email.isEmpty()) return false;
 		if(!isValid(email)) return false;
 		Email = email;
@@ -47,24 +47,24 @@ public class GuestService implements IGuestService {
 	}
 
 	@Override
-	public String GetFirstName() {
+	public String getFirstName() {
 		return FirstName;
 	}
 
 	@Override
-	public String GetLastName() {
+	public String getLastName() {
 		
 		return LastName;
 	}
 
 	@Override
-	public String GetPhone() {
+	public String getPhone() {
 		
 		return Phone;
 	}
 
 	@Override
-	public String GetEmail() {
+	public String getEmail() {
 		
 		return Email;
 	}

@@ -6,16 +6,16 @@ public interface IGuestService {
 
 
 	
-	boolean AddFirstName(String firstName);
-	boolean AddLastName(String lastName);
-	boolean AddPhone(String phoneNumber);
-	boolean AddEmail(String email);
+	boolean addFirstName(String firstName);
+	boolean addLastName(String lastName);
+	boolean addPhone(String phoneNumber);
+	boolean addEmail(String email);
 	
 	
-	String GetFirstName();
-	String GetLastName();
-	String GetPhone();
-	String GetEmail();
+	String getFirstName();
+	String getLastName();
+	String getPhone();
+	String getEmail();
 	
 	
 	};

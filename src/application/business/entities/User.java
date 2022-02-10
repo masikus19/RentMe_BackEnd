@@ -1,6 +1,7 @@
 package application.business.entities;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
 import javax.persistence.OneToMany;
@@ -8,7 +9,6 @@ import javax.persistence.OneToMany;
 import org.springframework.data.annotation.Id;
 
 import application.business.service.GuestService;
-import application.business.service.IGuestService;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -32,10 +32,10 @@ public class User {
 	
 	public  User(GuestService guest) {
 		super();
-		firstName = guest.GetFirstName();
-		lastName = guest.GetLastName();
-		phone = guest.GetPhone();
-		email = guest.GetEmail();
+		firstName = guest.getFirstName();
+		lastName = guest.getLastName();
+		phone = guest.getPhone();
+		email = guest.getEmail();
 	}
 	
 	
