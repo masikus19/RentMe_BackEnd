@@ -19,7 +19,7 @@ import lombok.Setter;
 @EqualsAndHashCode(of = {"name"})
 
 @Entity
-@Table(name = "typeOfRealtyObject")
+@Table(name = "type_of_realty_object")
 public class TypeOfRealtyObject {
 	@Id
 	@Column(length=100)

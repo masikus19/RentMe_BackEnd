@@ -8,6 +8,8 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -35,22 +37,24 @@ public class Renter
 	String numberTelephone;
 	
 	String email;
+	String photo;
+	
+	@ManyToMany(mappedBy = "renterH")
+	List<Announcement> announcementH = new ArrayList<Announcement>();
+	
+	@ManyToMany(mappedBy = "renterF")
+	Set<Announcement> announcementF = new HashSet<Announcement>();
 	
 	@OneToMany(mappedBy = "renter")
-	List<RentedObject> rentHistory = new ArrayList<RentedObject>();
-	
-	@OneToMany(mappedBy = "renter")
-	Set<RentedObject> favorites = new HashSet<RentedObject>();
+	List<Message> messages = new ArrayList<>();
 
-	public Renter(String login, String firstName, String lastName, String numberTelephone, String email) {
+	public Renter(String login, String firstName, String lastName, String numberTelephone, String email, String photo) {
 		super();
 		this.login = login;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.numberTelephone = numberTelephone;
 		this.email = email;
+		this.photo = photo;
 	}
-	
-	
-
 }

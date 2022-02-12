@@ -8,7 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.Email;
 
 import lombok.*;
 
@@ -24,7 +23,6 @@ public class Owner {
 	@Column(length=100)
 	String login;
 	
-	@Email
 	String email;
 	@Column(name = "first_name")
 	String firstName;
@@ -34,16 +32,17 @@ public class Owner {
 	String numberTelephone;
 	@Column(name = "about_me")
 	String aboutMe;
+	String photo;
 	
 	@OneToMany(mappedBy = "owner")
 	List<RealtyObject> realtyObjects = new ArrayList<>();
 	
 	@OneToMany(mappedBy = "owner")
-	List<MessageToOwner> messages = new ArrayList<>();
+	List<Message> messages = new ArrayList<>();
 	
 
-	public Owner(String login, @Email String email, String firstName, String lastName, String numberTelephone,
-			String aboutMe) {
+	public Owner(String login,String email, String firstName, String lastName, String numberTelephone,
+			String aboutMe, String photo) {
 		super();
 		this.login = login;
 		this.email = email;
@@ -51,6 +50,7 @@ public class Owner {
 		this.lastName = lastName;
 		this.numberTelephone = numberTelephone;
 		this.aboutMe = aboutMe;
+		this.photo = photo;
 	}
 	
 	

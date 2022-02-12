@@ -6,8 +6,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import java.util.List;
-import java.util.ArrayList;
+import java.util.Set;
+import java.util.HashSet;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -37,7 +37,7 @@ public class Address {
 	double lng;
 	
 	@OneToMany(mappedBy = "address")
-	List<RealtyObject> realtyObjects = new ArrayList<RealtyObject>();
+	Set<RealtyObject> realtyObjects = new HashSet<RealtyObject>();
 	
 	public Address(String fullAddress, String countryName, String cityName, String street, String numberOfHouse, double lat, double lng) {
 		super();

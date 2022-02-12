@@ -11,10 +11,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.EqualsAndHashCode;
@@ -27,7 +27,7 @@ import lombok.Setter;
 @EqualsAndHashCode(of = {"id"})
 
 @Entity
-@Table(name = "realtyObject")
+@Table(name = "realty_object")
 public class RealtyObject {
 	
 	@Id
@@ -46,20 +46,22 @@ public class RealtyObject {
 	int size;
 	int floor;
 	int bedrooms;
+	int bathrooms;
 	String appt;
 	String block;
+	boolean rented;
+	
+	@OneToOne
+	Announcement announcement;
 	
 	@OneToMany(mappedBy = "realtyObject")
 	List<Photo> photos = new ArrayList<Photo>();
 	
-	boolean rented;
-	
-//	@ManyToMany
-	@ManyToMany(mappedBy = "realtyObjects")
-	Set<Amenitie> amenities = new HashSet<Amenitie>();
+	@ManyToMany(mappedBy = "realtyObject")
+	Set<Amenitie> amenitie = new HashSet<Amenitie>();
 
 	public RealtyObject(String nameOfRentObject, Address address, TypeOfRealtyObject typeOfRealtyObject, Owner owner,
-			int size, int floor, int bedrooms, String appt, String block) {
+			int size, int floor, int bedrooms, int bathrooms, String appt, String block, Announcement announcement) {
 		super();
 		this.nameOfRealtyObject = nameOfRentObject;
 		this.address = address;
@@ -68,8 +70,10 @@ public class RealtyObject {
 		this.size = size;
 		this.floor = floor;
 		this.bedrooms = bedrooms;
+		this.bathrooms = bathrooms;
 		this.appt = appt;
 		this.block = block;
+		this.announcement = announcement;
 	}
 
 	

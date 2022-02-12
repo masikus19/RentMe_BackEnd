@@ -1,15 +1,13 @@
 package application.business.entities;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.EqualsAndHashCode;
@@ -19,32 +17,30 @@ import lombok.Setter;
 
 @NoArgsConstructor
 @Getter @Setter
-@EqualsAndHashCode(of = {"id"})
+@EqualsAndHashCode(of = "id")
 
 @Entity
-@Table(name = "rented_object")
-public class RentedObject 
-{
+@Table(name = "message")
+public class Message {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	long id;
 	
-	@OneToOne
-	@JoinColumn(name = "realty_object")
-	RealtyObject realtyObject;
+	String message;
+	@Column(name = "date_time_of_message")
+	LocalDateTime dateTimeOfMessage;//TODO
 	
 	@ManyToOne
 	Renter renter;
-	@Column(name = "rented_from")
-	LocalDate rentedFrom;
-	@Column(name = "rented_to")
-	LocalDate rentedTo;
+	@ManyToOne
+	Owner owner;
 	
-	public RentedObject(RealtyObject realtyObject, Renter renter, LocalDate rentedFrom, LocalDate rentedTo) {
+	public Message(String message, LocalDateTime dateTimeOfMessage, Renter renter, Owner owner) {
 		super();
-		this.realtyObject = realtyObject;
+		this.message = message;
+		this.dateTimeOfMessage = dateTimeOfMessage;
 		this.renter = renter;
-		this.rentedFrom = rentedFrom;
-		this.rentedTo = rentedTo;
-	}	
+		this.owner = owner;
+	}
 }
