@@ -14,7 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.EqualsAndHashCode;
@@ -34,7 +35,7 @@ public class Announcement {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	long id;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "realty_object")
 	RealtyObject realtyObject;
 	int price;
@@ -53,6 +54,9 @@ public class Announcement {
 	@ManyToMany
 	@JoinTable(name = "favorite")
 	Set<Renter> renterF = new HashSet<Renter>();
+	
+	@OneToMany(mappedBy = "announcement")
+	List<Message> messages = new ArrayList<>();
 		
 	public Announcement(RealtyObject realtyObject, int price, LocalDate available, int minDurationOfStay,
 			int securityDeposit, int cancellationTime) {

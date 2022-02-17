@@ -3,12 +3,13 @@ package application.security.services;
 import java.util.List;
 import java.util.Set;
 
+import application.security.dto.RegisterDto;
 import application.security.entities.Account;
 
 public interface ISecurityService {
 
-	Account addUser(String login, String password);
-	Account addOwner(String login, String password);
+	Account addUser(RegisterDto registerDto);
+	Account addOwner(RegisterDto registerDto);
 	Account addAccount(String login, String password, String role);
 	Account grantRole(String login, String role);
 	Account depriveRole(String login, String role);

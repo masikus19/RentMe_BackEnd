@@ -10,7 +10,13 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import application.business.entities.Owner;
+import application.business.entities.Renter;
+import application.business.repositories.OwnerRepository;
+import application.business.repositories.RenterRepository;
 import application.security.configuration.AccountingParameters;
+import application.security.dto.RegisterDto;
 import application.security.entities.Account;
 import application.security.repositories.AccountRepository;
 
@@ -20,6 +26,8 @@ public class SecurityService implements ISecurityService {
 	@Autowired AccountRepository accountRepo;
 	@Autowired PasswordEncoder encoder;
 	@Autowired AccountingParameters parameters;
+	@Autowired RenterRepository renterRepo;
+	@Autowired OwnerRepository ownerRepo;
 	
 	private Account getAccount(String login) {
 		checkLogin(login);
@@ -30,23 +38,26 @@ public class SecurityService implements ISecurityService {
 	}
 	
 	@Override
-	public synchronized Account addUser(String login, String password) 
+	public synchronized Account addUser(RegisterDto data) 
 	{
-		isAccountExists(login);
-		checkPassword(password);
-		return accountRepo.save(new Account(login, encoder.encode(password), "ROLE_USER"));
+		isAccountExists(data.getLogin());
+		checkPassword(data.getPassword());
+		renterRepo.save(new Renter(data.getLogin(), data.getFirstName(), data.getLastName(), data.getNumberTelephone(), data.getEmail(), data.getPhoto()));
+		return accountRepo.save(new Account(data.getLogin(), encoder.encode(data.getPassword()), "ROLE_USER"));
 	}
 	
 	@Override
-	public synchronized Account addOwner(String login, String password) 
+	public synchronized Account addOwner(RegisterDto data) 
 	{
-		isAccountExists(login);
-		checkPassword(password);
-		return accountRepo.save(new Account(login, encoder.encode(password), "ROLE_OWNER"));
+		isAccountExists(data.getLogin());
+		checkPassword(data.getPassword());
+		ownerRepo.save(new Owner(data.getLogin(), data.getEmail(), data.getFirstName(), data.getLastName(), data.getNumberTelephone(), data.getAboutMe(), data.getPhoto()));
+		return accountRepo.save(new Account(data.getLogin(), encoder.encode(data.getPassword()), "ROLE_OWNER"));
 	}
 	
+
 	@Override
-	public Account addAccount(String login, String password, String role) 
+	public synchronized Account addAccount(String login, String password, String role) 
 	{
 		isAccountExists(login);
 		checkPassword(password);

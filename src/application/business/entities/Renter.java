@@ -1,14 +1,13 @@
 package application.business.entities;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -40,10 +39,10 @@ public class Renter
 	String photo;
 	
 	@ManyToMany(mappedBy = "renterH")
-	List<Announcement> announcementH = new ArrayList<Announcement>();
+	Set<Announcement> announcementH = new LinkedHashSet<Announcement>();
 	
 	@ManyToMany(mappedBy = "renterF")
-	Set<Announcement> announcementF = new HashSet<Announcement>();
+	Set<Announcement> announcementF = new LinkedHashSet<Announcement>();
 	
 	@OneToMany(mappedBy = "renter")
 	List<Message> messages = new ArrayList<>();

@@ -49,10 +49,11 @@ public class RealtyObject {
 	int bathrooms;
 	String appt;
 	String block;
+	String description;
 	boolean rented;
 	
-	@OneToOne
-	Announcement announcement;
+	@OneToMany(mappedBy = "realtyObject")
+	List<Announcement> announcements = new ArrayList<>();
 	
 	@OneToMany(mappedBy = "realtyObject")
 	List<Photo> photos = new ArrayList<Photo>();
@@ -61,7 +62,7 @@ public class RealtyObject {
 	Set<Amenitie> amenitie = new HashSet<Amenitie>();
 
 	public RealtyObject(String nameOfRentObject, Address address, TypeOfRealtyObject typeOfRealtyObject, Owner owner,
-			int size, int floor, int bedrooms, int bathrooms, String appt, String block, Announcement announcement) {
+			int size, int floor, int bedrooms, int bathrooms, String appt, String block, String description) {
 		super();
 		this.nameOfRealtyObject = nameOfRentObject;
 		this.address = address;
@@ -73,7 +74,7 @@ public class RealtyObject {
 		this.bathrooms = bathrooms;
 		this.appt = appt;
 		this.block = block;
-		this.announcement = announcement;
+		this.description = description;
 	}
 
 	

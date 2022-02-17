@@ -2,6 +2,8 @@ package application.jwt;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,17 +30,17 @@ public class JWTController {
 	}
 		
 	@PostMapping("/register")
-	public ResponseEntity<?> registerAndCreateToken(@RequestBody RegisterDto registerDto){
+	public ResponseEntity<?> registerAndCreateToken(@Valid @RequestBody RegisterDto registerDto){
 		String role;
 		if(registerDto.getRole().equals("USER"))
 			{
 				role="USER";
-				service.addUser(registerDto.getLogin(), registerDto.getPassword());
+				service.addUser(registerDto);
 			}
 		else
 		{
 			role="OWNER";
-			service.addOwner(registerDto.getLogin(), registerDto.getPassword());
+			service.addOwner(registerDto);
 		}
 		
 		return makeResponse(jwtTokenUtil.generateToken(registerDto.getLogin(), registerDto.getPassword(), List.of(role)));		

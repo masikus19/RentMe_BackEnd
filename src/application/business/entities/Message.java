@@ -27,17 +27,21 @@ public class Message {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	long id;
 	
+	@ManyToOne
+	Announcement announcement;
+	
 	String message;
 	@Column(name = "date_time_of_message")
-	LocalDateTime dateTimeOfMessage;//TODO
+	LocalDateTime dateTimeOfMessage;
 	
 	@ManyToOne
 	Renter renter;
 	@ManyToOne
 	Owner owner;
 	
-	public Message(String message, LocalDateTime dateTimeOfMessage, Renter renter, Owner owner) {
+	public Message(Announcement announcement, String message, LocalDateTime dateTimeOfMessage, Renter renter, Owner owner) {
 		super();
+		this.announcement = announcement;
 		this.message = message;
 		this.dateTimeOfMessage = dateTimeOfMessage;
 		this.renter = renter;

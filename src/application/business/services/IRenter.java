@@ -1,28 +1,28 @@
 package application.business.services;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
-import application.business.dto.ContactOwnerDto;
 import application.business.dto.EditProfileDto;
 import application.business.dto.FindPlaceDto;
+import application.business.dto.FindPlaceResponseDto;
+import application.business.dto.MessageToOwnerDto;
 import application.business.dto.OwnerDto;
 import application.business.dto.RenterDto;
-import application.business.dto.AnnouncementDto;
+import application.business.dto.RequestTourDto;
 
 public interface IRenter {
 	
 	RenterDto getProfile(String loginOfRenter);
-	RenterDto editProfile(EditProfileDto editRenter);
-	List<AnnouncementDto> findPlace(FindPlaceDto findPlace);
-	List<AnnouncementDto> getFavorites(String loginOfRenter);
-	List<AnnouncementDto> addFavorite(long idOfAnnoncement);
-	List<AnnouncementDto> removeFavorite(long idOfAnnoncement);
-	Set<AnnouncementDto> getHistory(String loginOfRenter);
-	Set<AnnouncementDto> addAnnouncementToHistory(long idOfAnnoncement);
-	String requestTour(LocalDate from, LocalDate to, int idOfAnnouncement);
+	RenterDto editProfile(String login, EditProfileDto editRenter);
+	List<FindPlaceResponseDto> findPlace(FindPlaceDto findPlace);
+	Set<FindPlaceResponseDto> getFavorites(String loginOfRenter);
+	String addFavorite(String loginOfRenter, long idOfAnnoncement);
+	String removeFavorite(String loginOfRenter, long idOfAnnoncement);
+	Set<FindPlaceResponseDto> getHistory(String loginOfRenter);
+	String addAnnouncementToHistory(String loginOfRenter, long idOfAnnoncement);
+	String requestTour(RequestTourDto data);
 	OwnerDto applyToOwner(String loginOfOwner);
-	String contactOwner(ContactOwnerDto contactOwner);//TODO
+	String contactOwner(MessageToOwnerDto contactOwner);
 
 }

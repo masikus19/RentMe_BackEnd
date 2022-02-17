@@ -1,10 +1,14 @@
 package application.security.controller;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,27 +20,42 @@ import org.springframework.web.bind.annotation.RestController;
 import application.security.dto.AccountDto;
 import application.security.dto.AuthPair;
 import application.security.dto.Mapper;
+import application.security.dto.RegisterDto;
 import application.security.services.ISecurityService;
 import static application.config.API.*;
+
 @RestController
 @RequestMapping(SECURITY)
+@Validated
 public class SecurityController {
 	
 	@Autowired ISecurityService service;
 	
 	@PostMapping(ADD_USER)
-	public AccountDto addUser(@RequestBody AuthPair authPair) {
-		return Mapper.accountDto(service.addUser(authPair.getLogin(), authPair.getPassword()));
+	public AccountDto addUser(@RequestBody RegisterDto data) {
+		return Mapper.accountDto(service.addUser(data));
 	};
 	
 	@PostMapping(ADD_OWNER)
-	public AccountDto addOwner(@RequestBody AuthPair authPair) {
-		return Mapper.accountDto(service.addOwner(authPair.getLogin(), authPair.getPassword()));
+	public AccountDto addOwner(@RequestBody RegisterDto data) {
+		return Mapper.accountDto(service.addOwner(data));
 	};
 	
+//	@PostMapping(ADD_ACCOUNT)
+//	public AccountDto addAccount(@RequestBody AuthPair authPair, String role) {
+//		return Mapper.accountDto(service.addAccount(authPair.getLogin(), authPair.getPassword(), role));
+//	};
+	
+//	@PostMapping(ADD_ACCOUNT)
+//	public AccountDto addAccount(@Valid @RequestBody RegisterDto regDto) {
+//		return Mapper.accountDto(service.addAccount(regDto.getLogin(), regDto.getPassword(), regDto.getRole()));
+//	};
+	
 	@PostMapping(ADD_ACCOUNT)
-	public AccountDto addAccount(@RequestBody AuthPair authPair, String role) {
-		return Mapper.accountDto(service.addAccount(authPair.getLogin(), authPair.getPassword(), role));
+	public AccountDto addAccount(@Valid @Pattern(regexp = "^[0-9]+$") String login,
+			@Valid @Pattern(regexp = "[0-9]+") String password,
+			String role) {
+		return Mapper.accountDto(service.addAccount(login, password, role));
 	};
 
 	@PutMapping(GRANT_ROLE)
@@ -81,7 +100,7 @@ public class SecurityController {
 	};
 	
 	@PutMapping(REVOKE_ACCOUNT)
-	public AccountDto revokeAccount(String login) {
+	public AccountDto revokeAccount(@Size(min = 3, max = 50) @Pattern(regexp = "^[A-Za-z0-9]+$") String login) {
 		return Mapper.accountDto(service.revokeAccount(login));
 	};
 	

@@ -24,11 +24,15 @@ public class API {
 	public static final String REGISTER = "/register";
 	
 	public static final String APP = "/app";
+	public static final String ADD_RENTER = "/addRenter";
+	public static final String ADD_LESSOR = "/addLessor";
+	public static final String EDIT_RENTER = "/editRenter";
+	
 	
 	public static final String ADMIN = "/admin";
 	public static final String MANAGER = "/manager";
 	public static final String OWNER = "/owner";
-	public static final String USER = "/user";
+	public static final String RENTER = "/renter";
 	public static final String EVERYBODY = "/everybody";
 
 	

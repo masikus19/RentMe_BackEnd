@@ -13,6 +13,6 @@ public class FindPlaceDto
 	String city;
 	int minPrice;
 	int maxPrice;
-	int[] rooms;
+	Integer[] rooms;
 
 }
