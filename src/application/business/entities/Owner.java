@@ -15,13 +15,14 @@ import javax.persistence.OneToMany;
 @Getter
 public class Owner {
 
-	@Id
+	
 	String firstName;
 	String lastName;
 	String phone;
+	@Id
 	String email;
 	
-	@OneToMany
+	@OneToMany(mappedBy="owner")
 	List<Apartment> otherApatments = new ArrayList<>();
 	
 	public Owner(String firstName, String lastName, String phone, String email) {

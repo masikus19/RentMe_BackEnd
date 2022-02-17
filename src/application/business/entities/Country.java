@@ -8,7 +8,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class City {
+public class Country {
 
 	
 	
@@ -17,7 +17,7 @@ public class City {
 	String cityName;
 	String districtName;
 	
-	public City(String countryName, String cityName, String districtName) 
+	public Country(String countryName, String cityName, String districtName) 
 	{
 		super();
 		this.countryName=countryName;

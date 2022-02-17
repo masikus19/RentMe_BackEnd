@@ -5,17 +5,28 @@ import java.util.regex.Pattern;
 
 public class GuestService implements IGuestService {
 
-	
+	private String Login = "";
 	private String FirstName ="";
 	private String LastName = "";
 	private String Phone = "";
 	private String Email = "";
 	
+	
+	@Override
+	public boolean addLogin(String login) {
+		
+		if(login == null || login.isEmpty()) return false;
+		if(isDigit(login) || !isWord(login)) return false;
+		Login = login;
+		return true;
+	}
+	
+	
 	@Override
 	public boolean addFirstName(String firstName) {
 		
 		if(firstName == null || firstName.isEmpty()) return false;
-		if(isDigit(firstName) || !isLetter(firstName)) return false;
+		if(isDigit(firstName) || !isWord(firstName)) return false;
 		FirstName = firstName;
 		return true;
 	}
@@ -24,7 +35,7 @@ public class GuestService implements IGuestService {
 	public boolean addLastName(String lastName) {
 		
 		if(lastName == null || lastName.isEmpty()) return false;
-		if(isDigit(lastName) || !isLetter(lastName)) return false;
+		if(isDigit(lastName) || !isWord(lastName)) return false;
 		LastName = lastName;
 		return true;
 	}
@@ -44,6 +55,13 @@ public class GuestService implements IGuestService {
 		if(!isValid(email)) return false;
 		Email = email;
 		return true;
+	}
+	
+	
+	@Override
+	public String getLogin() {
+		
+		return Login;
 	}
 
 	@Override
@@ -76,9 +94,9 @@ public class GuestService implements IGuestService {
 		return str.matches("\\d+");
 	}
 	
-	public static boolean isLetter(String str)
+	public static boolean isWord(String str)
 	{
-		return str.matches("[A-Za-z_]\\w*");
+		return str.matches("[a-zA-Z][a-z-]*");
 	}
 
 	public static final Pattern VALID_EMAIL_ADDRESS_REGEX = 
@@ -88,6 +106,10 @@ public class GuestService implements IGuestService {
 		        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX .matcher(email);
 		        return matcher.find();
 		}
+
+		
+
+		
 
 
 	
