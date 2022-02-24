@@ -20,7 +20,7 @@ public class ConfigRestForGoogle {
 
     private final static Logger logger = LoggerFactory.getLogger(ConfigRestForGoogle.class);
 
-    private static final String MyAPI = "&key=AIzaSyCYJgRwB8COK1IezpCfnULOuJuCqKAW4yg";
+    private static final String MyAPI = "&key=AIzaSyCYJgRwB8COK1IezpCfnULOuJuCqKAW4y";
     
     private static final String HTTPGOOGLE = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=";
 
