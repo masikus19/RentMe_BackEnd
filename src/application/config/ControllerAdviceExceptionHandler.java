@@ -31,7 +31,7 @@ public class ControllerAdviceExceptionHandler {
 	@ExceptionHandler(value = { MethodArgumentNotValidException.class })
 	  public ResponseEntity<List<String>> handleBodyException(MethodArgumentNotValidException exception) {
 			List<String> result = exception.getBindingResult().getFieldErrors().stream()
-					.map(err -> err.getDefaultMessage() + err.getRejectedValue())
+					.map(err -> err.getField() + ": "+err.getRejectedValue() +" " + err.getDefaultMessage())
 					.collect(Collectors.toList());
 			
 			return new ResponseEntity<List<String>>(result, HttpStatus.BAD_REQUEST);

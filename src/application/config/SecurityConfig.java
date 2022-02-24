@@ -50,12 +50,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 											API.SECURITY + API.ACTIVATE_ACCOUNT,
 											API.APP + API.MANAGER).hasAnyRole("ADMIN", "MANAGER");
 				
-		//OWNER
-		http.authorizeRequests().mvcMatchers(API.APP + API.OWNER).hasRole("OWNER");	
+		//RENTER
+		http.authorizeRequests().mvcMatchers(API.APP + API.RENTER + API.GET_PROFILE_RENTER,
+											 API.APP + API.RENTER + API.EDIT_PROFILE_RENTER,
+											 API.APP + API.RENTER + API.FIND_PLACE,
+											 API.APP + API.RENTER + API.GET_FAVORITES,
+											 API.APP + API.RENTER + API.ADD_FAVORITE,
+											 API.APP + API.RENTER + API.REMOVE_FAVORITE,
+											 API.APP + API.RENTER + API.GET_HISTORY,
+											 API.APP + API.RENTER + API.ADD_ANNOUNCEMENT_TO_HISTORY,
+											 API.APP + API.RENTER + API.REQUEST_TOUR,
+											 API.APP + API.RENTER + API.APPLY_TO_OWNER,
+											 API.APP + API.RENTER + API.CONTACT_OWNER).hasRole("USER");	
 		
-		//USER
-		http.authorizeRequests().mvcMatchers(API.APP + API.RENTER).hasRole("USER");	
+		//OWNER
+		http.authorizeRequests().mvcMatchers(API.APP + API.OWNER + API.GET_PROFILE_OWNER,
+											 API.APP + API.OWNER + API.EDIT_PROFILE_OWNER,
+											 API.APP + API.OWNER + API.ADD_REALTY_OBJECT,
+											 API.APP + API.OWNER + API.ADD_ANNOUNCEMENT).hasRole("OWNER");	
 				
+		
 		//everybody
 		http.authorizeRequests().mvcMatchers(
 											 API.SECURITY + API.CHANGE_PASSWORD,

@@ -3,6 +3,7 @@ package application.business.dto;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import application.business.dto.toFront.FindPlaceResponseDto;
 import application.business.entities.Address;
 import application.business.entities.Announcement;
 import application.business.entities.RealtyObject;

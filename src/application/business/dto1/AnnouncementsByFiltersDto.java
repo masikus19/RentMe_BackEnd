@@ -1,7 +1,7 @@
-package application.business.dto;
+package application.business.dto1;
 
-import javax.validation.Valid;
-import javax.validation.constraints.Email;
+import java.time.LocalDate;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -13,19 +13,25 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+public class AnnouncementsByFiltersDto {
 
-@Valid
-public class EditProfileDto 
-{
 	@JsonInclude(Include.NON_NULL)
-	String firstName;
+	int minPrice;
 	@JsonInclude(Include.NON_NULL)
-	String lastName;
+	int maxPrice;
 	@JsonInclude(Include.NON_NULL)
-	String numberTelephone;
-	@Email
+	String[] typesOfRealtyObjects;
 	@JsonInclude(Include.NON_NULL)
-	String email;
+	int[] rooms;
 	@JsonInclude(Include.NON_NULL)
-	String photo;
+	LocalDate dateFrom;
+	@JsonInclude(Include.NON_NULL)
+	LocalDate dateTo;
+	@JsonInclude(Include.NON_NULL)
+	List<String> amenities;
+	
+	
+	
+	
+
 }

@@ -48,34 +48,34 @@ public class AccountChecks
 			throw new BadRequestException("Password is using now");		
 	}
 	
-	public static void checkLogin(String login)
-	{
-		if(login==null)
-			throw new BadRequestException("Wrong login");
-	}
+//	public static void checkLogin(String login)
+//	{
+//		if(login==null)
+//			throw new BadRequestException("Wrong login");
+//	}
 	
-	public static void checkPassword(String password) 
-	{
-		if(password==null)
-			throw new BadRequestException("Wrong password");	
-	}
+//	public static void checkPassword(String password) 
+//	{
+//		if(password==null)
+//			throw new BadRequestException("Wrong password");	
+//	}
 	
-	public static void checkRole(String role) 
-	{
-		if(role==null)
-			throw new BadRequestException("Wrong role");			
-	}
+//	public static void checkRole(String role) 
+//	{
+//		if(role==null)
+//			throw new BadRequestException("Wrong role");			
+//	}
 	
 	public static void isAccountExists(String login) 
 	{
-		checkLogin(login);
+//		checkLogin(login);
 		if(accountRepo.existsById(login))
 			throw new BadRequestException("Duplicated login "+login);	
 	}
 
 	public static void isRoleAllowed(String role) 
 	{
-		checkRole(role);
+//		checkRole(role);
 		if(!allowedRoles.contains(role))
 			throw new BadRequestException("Role not allowed");	
 	}
@@ -96,9 +96,14 @@ public class AccountChecks
 	
 	public static void checkLoginAuth(String login){
 		if(!SecurityContextHolder.getContext().getAuthentication().getName().equals(login))
-			throw new BadRequestException("You have no rights for change password");
+			throw new BadRequestException("You have no rights for this operation");
 	}
 	
+	public static void isRoleUserOrOwner(Set<String> roles) {
+		if(roles.contains("ROLE_USER") || roles.contains("ROLE_OWNER"))
+			throw new BadRequestException("Role not possible to add");
+		
+	}
 	@PostConstruct
 	private void plugAutowired()
 	{

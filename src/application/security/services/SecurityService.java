@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.validation.constraints.NotNull;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,7 @@ import application.business.entities.Renter;
 import application.business.repositories.OwnerRepository;
 import application.business.repositories.RenterRepository;
 import application.security.configuration.AccountingParameters;
+import application.security.dto.AddAccountDto;
 import application.security.dto.RegisterDto;
 import application.security.entities.Account;
 import application.security.repositories.AccountRepository;
@@ -29,8 +32,8 @@ public class SecurityService implements ISecurityService {
 	@Autowired RenterRepository renterRepo;
 	@Autowired OwnerRepository ownerRepo;
 	
-	private Account getAccount(String login) {
-		checkLogin(login);
+	private Account getAccount(@NotNull String login) {
+//		checkLogin(login);
 		Account account = accountRepo.findById(login).orElse(null);
 		if (account == null)
 			throw new BadRequestException("Login "+login+" not found");
@@ -41,7 +44,7 @@ public class SecurityService implements ISecurityService {
 	public synchronized Account addUser(RegisterDto data) 
 	{
 		isAccountExists(data.getLogin());
-		checkPassword(data.getPassword());
+//		checkPassword(data.getPassword());
 		renterRepo.save(new Renter(data.getLogin(), data.getFirstName(), data.getLastName(), data.getNumberTelephone(), data.getEmail(), data.getPhoto()));
 		return accountRepo.save(new Account(data.getLogin(), encoder.encode(data.getPassword()), "ROLE_USER"));
 	}
@@ -50,27 +53,28 @@ public class SecurityService implements ISecurityService {
 	public synchronized Account addOwner(RegisterDto data) 
 	{
 		isAccountExists(data.getLogin());
-		checkPassword(data.getPassword());
+//		checkPassword(data.getPassword());
 		ownerRepo.save(new Owner(data.getLogin(), data.getEmail(), data.getFirstName(), data.getLastName(), data.getNumberTelephone(), data.getAboutMe(), data.getPhoto()));
 		return accountRepo.save(new Account(data.getLogin(), encoder.encode(data.getPassword()), "ROLE_OWNER"));
 	}
 	
 
 	@Override
-	public synchronized Account addAccount(String login, String password, String role) 
+	public synchronized Account addAccount(AddAccountDto data) 
 	{
-		isAccountExists(login);
-		checkPassword(password);
-		isRoleAllowed(role);
-		return accountRepo.save(new Account(login, encoder.encode(password), "ROLE_"+role));
+		isAccountExists(data.getLogin());
+//		checkPassword(password);
+		isRoleAllowed(data.getRole());
+		return accountRepo.save(new Account(data.getLogin(), encoder.encode(data.getPassword()), "ROLE_"+data.getRole()));
 	}
 	
 	@Override
-	public Account grantRole(String login, String role) 
+	public Account grantRole(String login,  String role) 
 	{
 		Account account = getAccount(login);
 		isRoleAllowed(role);
 		Set<String> roles = account.getRoles();
+		isRoleUserOrOwner(roles);
 		String roleWithPrefix = "ROLE_" +role;
 		isRoleAbsent(roles, roleWithPrefix);
 		roles.add("ROLE_" +role);
@@ -81,7 +85,7 @@ public class SecurityService implements ISecurityService {
 	@Override
 	public Account depriveRole(String login, String role) 
 	{
-		checkRole(role);
+//		checkRole(role);
 		Account account = getAccount(login);
 		Set<String> roles = account.getRoles();
 		if(roles.size()<2)
@@ -141,7 +145,7 @@ public class SecurityService implements ISecurityService {
 	@Override
 	public synchronized Account changePassword(String login, String password) 
 	{
-		checkPassword(password);
+//		checkPassword(password);
 		checkLoginAuth(login);
 		Account account = getAccount(login);
 		String currentPassword = account.getPassword();

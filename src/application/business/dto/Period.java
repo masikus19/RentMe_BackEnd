@@ -1,5 +1,6 @@
 package application.business.dto;
 
+import application.business.dto1.UnitTime;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,11 +8,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class ContactOwnerDto 
+
+public class Period
 {
-	String nameOfRenter;
-	String phoneOfRenter;
-	String emailOfRenter;
-	String message;
-	String loginOfOwner;
+	UnitTime unitTime;
+	int period;
+	
 }

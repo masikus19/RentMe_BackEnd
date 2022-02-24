@@ -1,4 +1,4 @@
-package application.business.services;
+package application.business.services.interfacesImplementation;
 
 import java.util.Arrays;
 import java.util.List;
@@ -12,7 +12,13 @@ import org.springframework.stereotype.Service;
 
 import static application.business.dto.BusinessMapper.*;
 import application.business.dto.*;
-
+import application.business.dto.fromFront.EditProfileDto;
+import application.business.dto.fromFront.FindPlaceDto;
+import application.business.dto.fromFront.MessageDto;
+import application.business.dto.fromFront.RequestTourDto;
+import application.business.dto.toFront.FindPlaceResponseDto;
+import application.business.dto.toFront.OwnerDto;
+import application.business.dto.toFront.RenterDto;
 import application.business.entities.Announcement;
 import application.business.entities.Message;
 import application.business.entities.Owner;
@@ -24,6 +30,8 @@ import application.business.repositories.MessageRepository;
 import application.business.repositories.OwnerRepository;
 import application.business.repositories.RealtyObjectRepository;
 import application.business.repositories.RenterRepository;
+import application.business.services.interfaces.IRenter;
+import application.security.exceptionsHandling.AccountChecks;
 
 @Service
 public class RenterService implements IRenter
@@ -45,6 +53,7 @@ public class RenterService implements IRenter
 
 	@Override
 	public synchronized RenterDto editProfile(String login, EditProfileDto data) {
+		AccountChecks.checkLoginAuth(login);
 		Renter renter = renterRepo.findById(login).orElse(null);	
 		if(data.getFirstName()!=null)
 			renter.setFirstName(data.getFirstName());
@@ -94,6 +103,7 @@ public class RenterService implements IRenter
 	@Override
 	public synchronized String addFavorite(String loginOfRenter, long idOfAnnoncement) 
 	{
+		AccountChecks.checkLoginAuth(loginOfRenter);
 		Renter renter = renterRepo.findById(loginOfRenter).orElse(null);
 		Set<Announcement> favorites = renter.getAnnouncementF();
 		Announcement announc = announcRepo.findById(idOfAnnoncement).orElse(null);
@@ -104,6 +114,7 @@ public class RenterService implements IRenter
 	@Override
 	public synchronized String removeFavorite(String loginOfRenter, long idOfAnnoncement) 
 	{
+		AccountChecks.checkLoginAuth(loginOfRenter);
 		Renter renter = renterRepo.findById(loginOfRenter).orElse(null);
 		Set<Announcement> favorites = renter.getAnnouncementF();
 		Announcement announc = announcRepo.findById(idOfAnnoncement).orElse(null);
@@ -122,6 +133,7 @@ public class RenterService implements IRenter
 	@Override
 	public synchronized String addAnnouncementToHistory(String loginOfRenter, long idOfAnnoncement) {
 		//TODO 10 announc in history
+		AccountChecks.checkLoginAuth(loginOfRenter);
 		Renter renter = renterRepo.findById(loginOfRenter).orElse(null);
 		Set<Announcement> history = renter.getAnnouncementH();
 		Announcement announc = announcRepo.findById(idOfAnnoncement).orElse(null);
@@ -132,6 +144,7 @@ public class RenterService implements IRenter
 	@Override
 	//TODO
 	public String requestTour(RequestTourDto data) {
+		AccountChecks.checkLoginAuth(data.getLoginOfRenter());
 		Announcement announc = announcRepo.findById(data.getIdOfAnnouncement()).orElse(null);
 //		Owner owner = ownerRepo.findById(data.getLoginOfOwner()).orElse(null);
 //		Renter renter = renterRepo.findById(data.getLoginOfRenter()).orElse(null);
@@ -142,8 +155,8 @@ public class RenterService implements IRenter
 //		messageRepo.save(new Message(announc, message, data.getDateTimeOfMessage(), renter, owner));
 //		return "Message sent to owner";
 		
-		MessageToOwnerDto messageToOwner = 
-				new MessageToOwnerDto(data.getLoginOfRenter(), data.getLoginOfOwner(), message, data.getDateTimeOfMessage(), data.getIdOfAnnouncement());
+		MessageDto messageToOwner = 
+				new MessageDto(data.getLoginOfRenter(), data.getLoginOfOwner(), message, data.getDateTimeOfMessage(), data.getIdOfAnnouncement());
 		return contactOwner(messageToOwner);
 	}
 
@@ -154,7 +167,8 @@ public class RenterService implements IRenter
 	}
 
 	@Override
-	public String contactOwner(MessageToOwnerDto data) {
+	public String contactOwner(MessageDto data) {
+		AccountChecks.checkLoginAuth(data.getLoginOfRenter());
 		Announcement announc = announcRepo.findById(data.getIdOfAnnouncement()).orElse(null);
 		Owner owner = ownerRepo.findById(data.getLoginOfOwner()).orElse(null);
 		Renter renter = renterRepo.findById(data.getLoginOfRenter()).orElse(null);

@@ -1,4 +1,4 @@
-package application.business.dto;
+package application.business.dto.toFront;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Email;

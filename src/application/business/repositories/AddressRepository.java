@@ -6,4 +6,5 @@ import application.business.entities.Address;
 
 public interface AddressRepository extends JpaRepository<Address, String>{
 
+	
 }

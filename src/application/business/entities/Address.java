@@ -32,14 +32,15 @@ public class Address {
 	String cityName;
 	String street;
 	@Column(name = "number_of_house")
-	String numberOfHouse;
+	int numberOfHouse;
+	
 	double lat;
 	double lng;
 	
 	@OneToMany(mappedBy = "address")
 	Set<RealtyObject> realtyObjects = new HashSet<RealtyObject>();
 	
-	public Address(String fullAddress, String countryName, String cityName, String street, String numberOfHouse, double lat, double lng) {
+	public Address(String fullAddress, String countryName, String cityName, String street, int numberOfHouse,  double lat, double lng) {
 		super();
 		this.fullAddress = fullAddress;
 		this.countryName = countryName;
