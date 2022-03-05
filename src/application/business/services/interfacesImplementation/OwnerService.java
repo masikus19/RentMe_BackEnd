@@ -139,13 +139,14 @@ public class OwnerService implements IOwner{
 		
 	}
 
+	//TODO
 	@Transactional(propagation=Propagation.REQUIRES_NEW)
 	private void addAmenities(Set<String> amenities, RealtyObject object) {
 		Set<Amenitie> amenit = amenities.stream().map(a -> new Amenitie(a)).collect(Collectors.toSet());
 		amenit.stream().filter(a -> isNotExistsInDB(a.getName())).map(a -> amenitieRepo.save(a)).collect(Collectors.toSet());
 		object.getAmenitie().addAll(amenit);
 		amenit.forEach(a -> a.getRealtyObjects().add(object));
-		//TODO
+		
 	}
 
 	@Transactional(propagation=Propagation.REQUIRES_NEW)
