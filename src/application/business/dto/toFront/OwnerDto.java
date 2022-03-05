@@ -14,4 +14,5 @@ public class OwnerDto
 	String numberTelephone;
 	String email;
 	String aboutMe;
+	
 }
