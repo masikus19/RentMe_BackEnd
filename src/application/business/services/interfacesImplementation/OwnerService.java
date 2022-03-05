@@ -169,6 +169,7 @@ public class OwnerService implements IOwner{
 		Announcement announcement = new Announcement(object, announc.getPrice(), announc.getAvailable(),announc.getMinDurationOfStay(),
 				announc.getSecurityDeposit(), announc.getCancellationTime());
 		announcementRepo.save(announcement);
+		
 		return "Announcement added to DB";
 	}
 
