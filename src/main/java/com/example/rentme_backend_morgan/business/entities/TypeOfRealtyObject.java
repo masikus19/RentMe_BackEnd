@@ -1,0 +1,31 @@
+package com.example.rentme_backend_morgan.business.entities;
+
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
+
+@NoArgsConstructor
+@Getter @Setter
+@EqualsAndHashCode(of = {"name"})
+
+@Entity
+@Table(name = "typeOfRealtyObject")
+public class TypeOfRealtyObject {
+
+	@Id
+	@Column(length=100)
+	String name;
+	
+	@OneToMany(mappedBy = "typeOfRealtyObject")
+	Set<RealtyObject> realtyObjects = new HashSet<>();
+
+	public TypeOfRealtyObject(String name) {
+		this.name = name;
+	}
+	
+}
