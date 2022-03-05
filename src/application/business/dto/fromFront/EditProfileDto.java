@@ -16,24 +16,19 @@ import lombok.NoArgsConstructor;
 
 public class EditProfileDto 
 {
-	@JsonInclude(Include.NON_NULL)
+
 	String firstName;
-	
-	@JsonInclude(Include.NON_NULL)
+
 	String lastName;
-	
-	@JsonInclude(Include.NON_NULL)
+
 	@Pattern(regexp = "^[0-9]+$", message = "phone number must contain only digits")
 	String numberTelephone;
 	
 	@Email
-	@JsonInclude(Include.NON_NULL)
 	String email;
-	
-	@JsonInclude(Include.NON_NULL)
+
 	String photo;
-	
-	@JsonInclude(Include.NON_NULL)
+
 	String aboutMe;
 	
 }

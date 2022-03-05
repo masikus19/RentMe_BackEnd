@@ -40,12 +40,17 @@ public class Announcement {
 	RealtyObject realtyObject;
 	int price;
 	LocalDate available;
+	
 	@Column(name = "min_duration_of_stay")
 	int minDurationOfStay;
+	
 	@Column(name = "security_deposit")
 	int securityDeposit;
+	
 	@Column(name = "cancellation_time")
 	int cancellationTime;
+	
+	boolean actual;
 	
 	@ManyToMany
 	@JoinTable(name = "history")
@@ -68,10 +73,4 @@ public class Announcement {
 		this.securityDeposit = securityDeposit;
 		this.cancellationTime = cancellationTime;
 	}
-	
-	
-	
-	
-	
-	
 }

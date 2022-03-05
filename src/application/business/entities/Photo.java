@@ -1,5 +1,6 @@
 package application.business.entities;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,7 +25,7 @@ public class Photo {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int id;
-	
+	@Column(columnDefinition = "MEDIUMTEXT")
 	String url;
 	@ManyToOne
 	@JoinColumn(name = "realty_object")

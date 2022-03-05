@@ -10,6 +10,8 @@ import application.business.repositories.AddressRepository;
 import application.business.repositories.RealtyObjectRepository;
 import application.security.services.BadRequestException;
 
+import java.time.LocalDate;
+
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +58,6 @@ public class BussinesChecks {
                 dto.getBlockNumber()
         );
         if (realtyObject != null) {
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Realty object already exists");
         	throw new BadRequestException("Realty object already exists");
         }
     }
@@ -70,5 +71,14 @@ public class BussinesChecks {
     	
         Address address = addressRepo.findById(formatted_address).orElse(null);   
         return address;
+    }
+  
+
+    public static void isAnnouncementAlreadyExists(RealtyObject object, LocalDate available)
+    {
+    	object.getAnnouncements().forEach(a -> {
+    		if(a.getAvailable().equals(available))
+    			throw new BadRequestException("Announcement already exists");
+    	});
     }
 }

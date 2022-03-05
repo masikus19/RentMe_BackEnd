@@ -3,6 +3,8 @@ package application.business.services.interfacesImplementation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import application.business.dto.fromFront.AnnouncementDto;
 import application.business.dto.fromFront.EditAnnouncDto;
@@ -13,12 +15,14 @@ import application.business.dto.google.Location;
 import application.business.dto.toFront.OwnerDto;
 import application.business.entities.Address;
 import application.business.entities.Amenitie;
+import application.business.entities.Announcement;
 import application.business.entities.Owner;
 import application.business.entities.Photo;
 import application.business.entities.RealtyObject;
 import application.business.entities.TypeOfRealtyObject;
 import application.business.repositories.AddressRepository;
 import application.business.repositories.AmenitieRepository;
+import application.business.repositories.AnnouncementRepository;
 import application.business.repositories.OwnerRepository;
 import application.business.repositories.PhotoRepository;
 import application.business.repositories.RealtyObjectRepository;
@@ -27,11 +31,11 @@ import application.business.services.interfaces.IOwner;
 import application.security.exceptionsHandling.AccountChecks;
 import static application.business.services.google.ConfigRestForGoogle.createCandidates;
 
-import java.util.Arrays;
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import javax.transaction.Transactional;
+import java.util.stream.Stream;
 
 import static application.business.exceptionsHandling.BussinesChecks.*;
 
@@ -45,6 +49,8 @@ public class OwnerService implements IOwner{
 	@Autowired TypeOfRealtyObjectRepository typeObjectRepo;
 	@Autowired AmenitieRepository amenitieRepo;
 	@Autowired PhotoRepository photoRepo;
+	@Autowired AnnouncementRepository announcementRepo;
+//	@Autowired OwnerService self;
 	@Override
 	public OwnerDto getProfile(String loginOfOwner) {
 		Owner owner = ownerRepo.findById(loginOfOwner).orElse(null);
@@ -86,7 +92,7 @@ public class OwnerService implements IOwner{
 		
         if(address==null)
         {
-        	address = saveAddress(location, formatted_address, data);	
+        	address =saveAddress(location, formatted_address, data);	
         	saveRealtyObject(data, address);
         }
         else
@@ -97,7 +103,8 @@ public class OwnerService implements IOwner{
 	}
 
 
-	private Address saveAddress(Location location, String formatted_address, RealtyObjectDto data) 
+	@Transactional(propagation=Propagation.REQUIRES_NEW)
+	public Address saveAddress(Location location, String formatted_address, RealtyObjectDto data) 
 	{
 		Address address = new Address(formatted_address, data.getCountryName(), data.getCityName(), 
     			data.getStreetName(), data.getNumberOfHouse(), location.getLat(), location.getLng());
@@ -105,6 +112,7 @@ public class OwnerService implements IOwner{
 	}
 
 
+	@Transactional(propagation=Propagation.REQUIRES_NEW)
 	private void saveRealtyObject(RealtyObjectDto data, Address address) {
 		Owner owner = ownerRepo.findById(data.getLoginOwner()).orElse(null);
 		TypeOfRealtyObject typeOfObject = saveTypeOfObject(data.getTypeOfRealtyObject());
@@ -114,29 +122,33 @@ public class OwnerService implements IOwner{
 				data.getDescription());
 		realtyObjectRepo.save(object);
 		
-		addAmenities(data.getAmenities(), object);
-		addPhotos(data.getPhotos(), object);	
+		if(!(data.getAmenities()==null)) 
+			{
+				addAmenities(data.getAmenities(), object);
+			}
+		if(!(data.getPhotos()==null))
+		{
+			addPhotos(data.getPhotos(), object);
+		}
+			
 	}
 
-	private void addPhotos(String[] photos, RealtyObject object) {
-		Arrays.asList(photos).stream()
-		.filter(f -> isNotExistsInDB(f))
-		.map(f -> photoRepo.save(new Photo(f, object))).collect(Collectors.toSet());
-		object.getPhotos().addAll(Arrays.asList(photos).stream().map(f->new Photo(f, object)).collect(Collectors.toSet()));
-}
+	@Transactional(propagation=Propagation.REQUIRES_NEW)
+	private void addPhotos(Set<String> photos, RealtyObject object) {
+		photos.stream().map(f -> photoRepo.save(new Photo(f, object))).collect(Collectors.toSet());
+		
+	}
 
-	private void addAmenities(String[] amenities, RealtyObject object) {
-		Arrays.asList(amenities).stream()
-		.filter(a -> isNotExistsInDB(a))
-		.map(a -> amenitieRepo.save(new Amenitie(a))).collect(Collectors.toSet());
-
-		Set<Amenitie> amenit = Arrays.asList(amenities).stream().map(a->new Amenitie(a)).collect(Collectors.toSet());
+	@Transactional(propagation=Propagation.REQUIRES_NEW)
+	private void addAmenities(Set<String> amenities, RealtyObject object) {
+		Set<Amenitie> amenit = amenities.stream().map(a -> new Amenitie(a)).collect(Collectors.toSet());
+		amenit.stream().filter(a -> isNotExistsInDB(a.getName())).map(a -> amenitieRepo.save(a)).collect(Collectors.toSet());
 		object.getAmenitie().addAll(amenit);
+		amenit.forEach(a -> a.getRealtyObjects().add(object));
 		//TODO
-		amenit.forEach(a -> a.getRealtyObject().add(object));
-	
-}
+	}
 
+	@Transactional(propagation=Propagation.REQUIRES_NEW)
 	private TypeOfRealtyObject saveTypeOfObject(String typeOfRealtyObject) 
 	{
 		TypeOfRealtyObject typeOfObject = typeObjectRepo.findById(typeOfRealtyObject).orElse(null);
@@ -150,10 +162,16 @@ public class OwnerService implements IOwner{
 
 	@Override
 	public String addAnnouncement(AnnouncementDto announc) {
-		//TODO
-		return null;
+		RealtyObject object = realtyObjectRepo.findById(announc.getIdOfRealtyObject()).orElse(null);
+		isAnnouncementAlreadyExists(object, announc.getAvailable());
+		AccountChecks.checkLoginAuth(object.getOwner().getLogin());
+		Announcement announcement = new Announcement(object, announc.getPrice(), announc.getAvailable(),announc.getMinDurationOfStay(),
+				announc.getSecurityDeposit(), announc.getCancellationTime());
+		announcementRepo.save(announcement);
+		return "Announcement added to DB";
 	}
 
+	
 	@Override
 	public String editAnnnouncement(EditAnnouncDto editAnnounc) {
 		// TODO Auto-generated method stub

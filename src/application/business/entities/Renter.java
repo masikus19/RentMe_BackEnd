@@ -36,6 +36,7 @@ public class Renter
 	String numberTelephone;
 	
 	String email;
+	@Column(columnDefinition = "MEDIUMTEXT")
 	String photo;
 	
 	@ManyToMany(mappedBy = "renterH")

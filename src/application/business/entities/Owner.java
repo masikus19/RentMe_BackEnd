@@ -32,6 +32,7 @@ public class Owner {
 	String numberTelephone;
 	@Column(name = "about_me")
 	String aboutMe;
+	@Column(columnDefinition = "MEDIUMTEXT")
 	String photo;
 	
 	@OneToMany(mappedBy = "owner")

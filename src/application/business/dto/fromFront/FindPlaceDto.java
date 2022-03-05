@@ -14,12 +14,16 @@ public class FindPlaceDto
 {
 	@NotNull
 	String country;
+	
 	@NotNull
 	String city;
+	
 	@NotNull
 	int minPrice;
+	
 	@NotNull
 	int maxPrice;
+	
 	@NotNull
 	@Pattern(regexp = "^[0-9]+$", message = "count rooms must contain only digits")
 	Integer[] rooms;

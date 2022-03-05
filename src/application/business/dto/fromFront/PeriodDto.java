@@ -1,4 +1,4 @@
-package application.business.dto;
+package application.business.dto.fromFront;
 
 import application.business.dto1.UnitTime;
 import lombok.AllArgsConstructor;
@@ -9,9 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 
-public class Period
+public class PeriodDto
 {
 	UnitTime unitTime;
-	int period;
-	
+	int period;	
 }

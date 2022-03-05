@@ -9,13 +9,17 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @NoArgsConstructor
 @Getter @Setter
+@ToString
 @EqualsAndHashCode(exclude = "realtyObject")
 
 @Entity
@@ -26,8 +30,9 @@ public class Amenitie
 	@Column(length=100)
 	String name;
 	
-	@ManyToMany
-	Set<RealtyObject> realtyObject = new HashSet<RealtyObject>();
+	@ManyToMany(mappedBy = "amenitie")
+	@JsonIgnore
+	Set<RealtyObject> realtyObjects = new HashSet<RealtyObject>();
 
 	public Amenitie(String name) {
 		super();

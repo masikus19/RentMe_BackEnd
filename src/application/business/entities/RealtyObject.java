@@ -14,8 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -58,7 +58,7 @@ public class RealtyObject {
 	@OneToMany(mappedBy = "realtyObject")
 	List<Photo> photos = new ArrayList<Photo>();
 	
-	@ManyToMany(mappedBy = "realtyObject")
+	@ManyToMany
 	Set<Amenitie> amenitie = new HashSet<Amenitie>();
 
 	public RealtyObject(String nameOfRentObject, Address address, TypeOfRealtyObject typeOfRealtyObject, Owner owner,

@@ -48,30 +48,20 @@ public class RealtyObjectDto {
     @NotNull @Min(1) 
     int bedrooms;
     
-    @JsonInclude(Include.NON_NULL)
     int bathrooms;
 
-    @JsonInclude(Include.NON_NULL)
-    @Pattern(regexp = "^[A-Za-z0-9]+$", message = "Appt number name is not valid")
+    @Pattern(regexp = "^[A-Za-z0-9]*$", message = "Appt number name is not valid")
     @Size(min = 1, max = 500)
     String apptNumber;
 
     @JsonInclude(Include.NON_NULL)
-    @Pattern(regexp = "^[A-Za-z0-9]+$", message = "Block number name is not valid")
-    @Size(min = 1, max = 500)
+    @Pattern(regexp = "^[A-Za-z0-9]*$", message = "Block number name is not valid")
     String blockNumber;
     
     @NotNull
     String description;
+
+   	Set<String> amenities;
     
-    @JsonInclude(Include.NON_NULL)
-    String[] amenities; 
-    
-    @JsonInclude(Include.NON_NULL)
-    String[] photos;
-//    @JsonInclude(Include.NON_NULL)
-//   	Set<String> amenities;
-    
-//    @JsonInclude(Include.NON_NULL)
-//    Set<String> photos;
+    Set<String> photos;
 }

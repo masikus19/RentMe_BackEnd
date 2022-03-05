@@ -19,12 +19,15 @@ public class RequestTourDto
 	String loginOfRenter;
 	String loginOfOwner;
 	long idOfAnnouncement;
+	
 	@NotNull
 	@JsonFormat(pattern="yyyy-MM-dd")
 	LocalDate rentFrom;
+	
 	@NotNull
 	@JsonFormat(pattern="yyyy-MM-dd")
 	LocalDate rentTo;
+	
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	LocalDateTime dateTimeOfMessage;
 }

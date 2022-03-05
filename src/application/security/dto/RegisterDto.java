@@ -22,7 +22,6 @@ public class RegisterDto
 		private String password;
 		
 		@NotNull
-		@Size(min = 4, max = 10)
 		private String role;
 		
 		@NotNull
