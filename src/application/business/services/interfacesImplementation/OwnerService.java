@@ -162,7 +162,7 @@ public class OwnerService implements IOwner{
 }
 
 	@Override
-	public String addAnnouncement(AnnouncementDto announc) {
+	public synchronized String addAnnouncement(AnnouncementDto announc) {
 		RealtyObject object = realtyObjectRepo.findById(announc.getIdOfRealtyObject()).orElse(null);
 		isAnnouncementAlreadyExists(object, announc.getAvailable());
 		AccountChecks.checkLoginAuth(object.getOwner().getLogin());
