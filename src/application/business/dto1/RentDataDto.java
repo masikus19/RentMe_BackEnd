@@ -18,4 +18,5 @@ public class RentDataDto
 	int rooms;
 	LocalDate rentFrom;
 	HashSet<String> amenities;
+	
 }
