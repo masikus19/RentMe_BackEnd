@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class RentDataDto 
 {
-	String city;
+	String cityName;
 	int price;
 	String typeOfRentObject;
 	int rooms;
