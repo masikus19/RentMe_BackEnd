@@ -8,6 +8,7 @@ import com.example.rentme_backend_morgan.security.dto.RegisterDto;
 import com.example.rentme_backend_morgan.security.entities.*;
 import com.example.rentme_backend_morgan.security.repo.AccountRepo;
 import com.example.rentme_backend_morgan.security.repo.PasswordRepo;
+import com.mysql.cj.jdbc.exceptions.MysqlDataTruncation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,12 +30,11 @@ public class SecurityService implements ISecurityService {
     private final AccountRepo accountRepo;
     private final PasswordRepo passwordRepo;
     private final PasswordEncoder encoder;
+    private final AddToSQL addProfileToSQL;
     private final AccountingParameters parameters;
-    private final RenterRepo renterRepo; //TODO put new renter for for create personal place
-    private final OwnerRepo ownerRepo; //TODO put new renter for for create personal place
 
     @Override
-    @Transactional
+    @Transactional(transactionManager = "securityTransactionManager")
     public Account addProfile(RegisterDto dto) {
         checkIsRoleAllowed(dto.getRole());
         checkAccountAbsence(dto.getLogin());
@@ -43,32 +43,17 @@ public class SecurityService implements ISecurityService {
                 dto.getLogin(),
                 "ROLE_" + dto.getRole());
 
-        passwordRepo.save(new Password(account, encoder.encode(dto.getPassword())));
-
-//        if(true)
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-
-        switch (dto.getRole()) {
-            case "USER" -> renterRepo.save(new Renter(
-                    dto.getLogin(),
-                    dto.getFirstName(),
-                    dto.getLastName(),
-                    dto.getNumberTelephone(),
-                    dto.getEmail(),
-                    dto.getAboutMe(),
-                    dto.getAvatarPhoto()));
-
-            case "OWNER" -> ownerRepo.save(new Owner(
-                    dto.getLogin(),
-                    dto.getEmail(),
-                    dto.getFirstName(),
-                    dto.getLastName(),
-                    dto.getNumberTelephone(),
-                    dto.getAboutMe(),
-                    dto.getAvatarPhoto()));
+        try {
+            passwordRepo.save(new Password(account, encoder.encode(dto.getPassword())));
+        } catch (RuntimeException e) {
+            throw new BadRequestException("SQL" + " " + e);
         }
+
+        addProfileToSQL.addProfileToSQL(dto);
+
         return account;
     }
+
 
     @Override
     public synchronized Account addAccount(RegisterDto dto) {

@@ -1,9 +1,13 @@
 package com.example.rentme_backend_morgan.business.mapper;
 
-
-import com.example.rentme_backend_morgan.business.dto.fromFront.*;
-import com.example.rentme_backend_morgan.business.dto.toFront.*;
-import com.example.rentme_backend_morgan.business.entities.*;
+import com.example.rentme_backend_morgan.business.dto.fromFront.AnnoncementDto;
+import com.example.rentme_backend_morgan.business.dto.fromFront.OwnerDto;
+import com.example.rentme_backend_morgan.business.dto.fromFront.RenterDto;
+import com.example.rentme_backend_morgan.business.dto.toFront.AnnouncementDtoToFront;
+import com.example.rentme_backend_morgan.business.dto.toFront.PartOfAnnDto;
+import com.example.rentme_backend_morgan.business.entities.Announcement;
+import com.example.rentme_backend_morgan.business.entities.Owner;
+import com.example.rentme_backend_morgan.business.entities.Renter;
 import org.modelmapper.ModelMapper;
 
 public class BusinessMapper {

@@ -11,6 +11,7 @@ public class Geometry {
 
     @JsonProperty("location")
     public Location location;
+
     @JsonProperty("viewport")
     public Viewport viewport;
 }

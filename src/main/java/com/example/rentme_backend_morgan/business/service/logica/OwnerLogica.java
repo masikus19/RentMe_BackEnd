@@ -1,6 +1,8 @@
 package com.example.rentme_backend_morgan.business.service.logica;
 
 
+import com.example.rentme_backend_morgan.business.dto.ResponseDto.Candidates;
+import com.example.rentme_backend_morgan.business.dto.ResponseDto.Location;
 import com.example.rentme_backend_morgan.business.dto.fromFront.*;
 import com.example.rentme_backend_morgan.business.entities.*;
 import com.example.rentme_backend_morgan.business.repo.*;
@@ -10,10 +12,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Set;
 
 import static com.example.rentme_backend_morgan.business.bussinesChecks.BussinesChecks.*;
 import static com.example.rentme_backend_morgan.business.mapper.BusinessMapper.*;
+import static com.example.rentme_backend_morgan.business.service.google.ConfigRestForGoogle.createCandidates;
 
 @Service
 @RequiredArgsConstructor
@@ -26,7 +30,10 @@ public class OwnerLogica implements IOwner {
     private final AnnouncementRepo announcementRepo;
     private final MessageRepo messageRepo;
     private final RealtyObjectRepo realtyObjectRepo;
+    private final AddressRepo addressRepo;
+    private final TypeOfRealtyObjectRepo typeOfRealtyObjectRepo;
     private final PhotoRepo photoRepo;
+    private final AmenitiesRepo amenitiesRepo;
 
     @Override
     public OwnerDto getProfile(String loginOwner) {
@@ -54,19 +61,112 @@ public class OwnerLogica implements IOwner {
 
     @Override
     @Transactional
+            (transactionManager = "businessTransactionManager")
     public synchronized String addRealityObject(RealtyObjectDto dto) {
-        System.out.println("+++++++++++++++++++++++++++++++++++++++");
-//        ifLoginIsLogin(dto.getLoginOwner());
-//        checkIsRealtyObjectExists(dto);
 
-//        Address address = checkIsAddressExist(dto);
-//        Owner owner = ownerRepo.findOwnerByLogin(dto.getLoginOwner());
+        ifLoginIsLogin(dto.getLoginOwner());
+        checkIsRealtyObjectExists(dto);
 
+        saveAmenities(dto.getAmenities());
 
-//        realtyObjectRepo.save(new RealtyObject());
-        System.out.println("2================");
-//        throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        Owner owner = ownerRepo.findOwnerByLogin(dto.getLoginOwner());
+
+        Address address = getAddress(dto);
+
+        TypeOfRealtyObject typeOfRealtyObject =
+                getTypeOfRealtyObject(dto.getTypeOfRealtyObject());
+
+        RealtyObject realtyObject = new RealtyObject(
+                address,
+                owner,
+                dto.getNameRentObject(),
+                dto.getApptNumber(),
+                dto.getSize(),
+                dto.getFloor(),
+                dto.getRooms(),
+                dto.getAvatarPhoto(),
+                typeOfRealtyObject
+        );
+
+        savePhotos(realtyObject, dto.getPhotos());
+
+        saveObjectAment(realtyObject, dto.getAmenities());
+
         return "Realty object is added to DB";
+    }
+
+    @Transactional
+            (transactionManager = "businessTransactionManager")
+    public void saveObjectAment(RealtyObject realtyObject, List<String> amenities) {
+        amenities.forEach(elem ->
+                {
+                    amenitiesRepo.findAmenitieByName(elem).getRealtyObjectss().add(realtyObject);
+                }
+        );
+
+        amenities.forEach(elem -> {
+            Amenitie amenitie =
+                    new Amenitie(elem);
+            amenitie.getRealtyObjectss().add(realtyObject);
+            amenitiesRepo.save(amenitie);
+        });
+    }
+
+    @Transactional
+            (transactionManager = "businessTransactionManager")
+    public void saveAmenities(List<String> amenities) {
+        amenities.forEach(elem -> {
+            amenitiesRepo.save(new Amenitie(elem));
+        });
+    }
+
+    @Transactional
+            (transactionManager = "businessTransactionManager")
+    public TypeOfRealtyObject getTypeOfRealtyObject(String name) {
+
+        TypeOfRealtyObject typeOfRealtyObject =
+//                typeOfRealtyObjectRepo.getById(name);
+                typeOfRealtyObjectRepo.findTypeOfRealtyObjectByName(name);
+
+
+        if (typeOfRealtyObject == null) {
+            typeOfRealtyObject = new TypeOfRealtyObject(name);
+        }
+
+        return typeOfRealtyObject;
+    }
+
+    @Transactional
+            (transactionManager = "businessTransactionManager")
+    public Address getAddress(RealtyObjectDto dto) {
+        Candidates candidates = createCandidates(dto);
+        String formatted_address = candidates.getFormatted_address();
+        Location location = candidates.getGeometry().getLocation();
+
+        Address address = checkIsAddressExist(formatted_address);
+
+        if (address == null) {
+            address = new Address(
+                    formatted_address,
+                    dto.getCountryName(),
+                    dto.getCityName(),
+                    dto.getStreetName(),
+                    dto.getBlockNumber(),
+                    dto.getNumberHouse(),
+                    location.getLat(),
+                    location.getLng());
+        }
+
+        return address;
+    }
+
+    @Transactional
+            (transactionManager = "businessTransactionManager")
+    public void savePhotos(RealtyObject realtyObject, List<String> photos) {
+        photos.forEach(ph ->
+        {
+            photoRepo.save(new Photo(realtyObject, ph));
+        });
     }
 
     @Override
@@ -120,14 +220,4 @@ public class OwnerLogica implements IOwner {
 
         return "Some text";
     }
-
-    //==================================================================================
-
-//    public void savePhoto(List<String> photo, RealtyObject realtyObject) {
-//        if (!photo.isEmpty()) {
-//            photo.forEach(ph -> {
-//                photoRepo.save(new Photo(realtyObject, ph));
-//            });
-//        }
-//    }
 }

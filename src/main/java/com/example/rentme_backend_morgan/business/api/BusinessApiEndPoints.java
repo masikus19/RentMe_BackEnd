@@ -28,10 +28,10 @@ public interface BusinessApiEndPoints {
     public static String USER_MESSAGE_TO_OWNER = "/sendMessageToOwner";
 
     //TODO OWNER
-    public static String OWNER = "/owner";
+    public static String OWNER = "/app/owner";
 
     public static String OWNER_ADD_ANNOUNCEMENT = "/addAnnouncement";
-    public static String OWNER_ADD_RENT_OBJECT = "/addRetnObject";
+    public static String OWNER_ADD_RENT_OBJECT = "/addRealtyObject";
     public static String OWNER_GET_PROFILE = "/getProfile";
     public static String OWNER_EDIT_PROFILE = "/editProfile";
     public static String OWNER_EDIT_OBJECT = "/editObject";

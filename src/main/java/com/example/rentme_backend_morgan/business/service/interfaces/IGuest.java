@@ -1,6 +1,5 @@
 package com.example.rentme_backend_morgan.business.service.interfaces;
 
-
 import com.example.rentme_backend_morgan.business.dto.fromFront.FindPlaceDto;
 import com.example.rentme_backend_morgan.business.dto.toFront.AnnouncementDtoToFront;
 

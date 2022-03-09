@@ -1,9 +1,10 @@
 package com.example.rentme_backend_morgan.business.bussinesChecks;
 
-
-import com.example.rentme_backend_morgan.business.dto.ResponseDto.*;
+import com.example.rentme_backend_morgan.business.dto.ResponseDto.AddressGoogleDto;
+import com.example.rentme_backend_morgan.business.dto.ResponseDto.Candidates;
 import com.example.rentme_backend_morgan.business.dto.fromFront.*;
-import com.example.rentme_backend_morgan.business.entities.*;
+import com.example.rentme_backend_morgan.business.entities.Address;
+import com.example.rentme_backend_morgan.business.entities.RealtyObject;
 import com.example.rentme_backend_morgan.business.repo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,9 +13,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
+
 import javax.annotation.PostConstruct;
+
 import static com.example.rentme_backend_morgan.business.api.BusinessResponses.*;
-import static com.example.rentme_backend_morgan.business.service.google.ConfigRestForGoogle.*;
+import static com.example.rentme_backend_morgan.business.service.google.ConfigRestForGoogle.createCandidates;
 
 
 @Component
@@ -61,29 +64,12 @@ public class BussinesChecks {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, EMPTY_ADDRESS);
     }
 
-    public static Address checkIsAddressExist(RealtyObjectDto dto) {
+    public static Address checkIsAddressExist(String formatted_address) {
 
-        Candidates candidates = createCandidates(dto);
-        String formatted_address = candidates.formatted_address;
         Address address = addressRepoY.findByFullAddressId(formatted_address);
+//        Address address = addressRepoY.getById(formatted_address);
 
-        if (address != null)
-            return address;
-
-        Location location = candidates.geometry.location;
-
-        Address addressNew = new Address(
-                formatted_address,
-                dto.getCountryName(),
-                dto.getCityName(),
-                dto.getStreetName(),
-                dto.getBlockNumber(),
-                dto.getNumberHouse(),
-                location.getLat(),
-                location.getLng());
-        addressRepoY.save(addressNew);
-
-        return addressNew;
+        return address;
     }
 
     public static RealtyObject checkIsAnnouncementExist(AnnoncementDto dto) {

@@ -1,3 +1,4 @@
+package com.example.rentme_backend_morgan.business.dto.fromFront;
 
 import lombok.Getter;
 

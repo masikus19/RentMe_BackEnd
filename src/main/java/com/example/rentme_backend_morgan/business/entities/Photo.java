@@ -20,20 +20,13 @@ public class Photo {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     long id;
 
-//    @ManyToOne
-//    RealtyObject realtyObject;
-
-    @ManyToOne
-    RealtyObject2 realtyObject;
+    @ManyToOne(cascade = CascadeType.ALL)
+    RealtyObject realtyObject;
 
     @Column(name = "photo", columnDefinition = "MEDIUMTEXT")
     String photo;
 
-    @ManyToOne
-    @JoinColumn(name = "realtyobject2_id")
-    private RealtyObject2 realtyobject2;
-
-    public Photo(RealtyObject2 realtyObject, String photo) {
+    public Photo(RealtyObject realtyObject, String photo) {
         this.realtyObject = realtyObject;
         this.photo = photo;
     }

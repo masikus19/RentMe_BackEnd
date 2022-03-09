@@ -39,7 +39,7 @@ public class Announcement {
     @JoinTable(name = "favorite")
     Set<Renter> renterF = new HashSet<>();
 
-    @OneToMany(mappedBy = "announcement")
+    @OneToMany(mappedBy = "announcement", cascade = CascadeType.ALL)
     Set<Message> message;
 
     public Announcement(RealtyObject realtyObject,

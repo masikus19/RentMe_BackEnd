@@ -1,14 +1,17 @@
 package com.example.rentme_backend_morgan.business.controllers;
 
 import com.example.rentme_backend_morgan.business.dto.fromFront.*;
-import com.example.rentme_backend_morgan.business.dto.toFront.*;
+import com.example.rentme_backend_morgan.business.dto.toFront.AnnouncementDtoToFront;
+import com.example.rentme_backend_morgan.business.dto.toFront.PartOfAnnDto;
 import com.example.rentme_backend_morgan.business.service.interfaces.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Pattern;
+
 import java.util.Set;
 
 import static com.example.rentme_backend_morgan.business.api.BusinessApiEndPoints.*;

@@ -16,6 +16,7 @@ import static com.example.rentme_backend_morgan.security.api.SecurityApi.*;
 @RestController
 @RequestMapping(SECURITY)
 @RequiredArgsConstructor
+@CrossOrigin
 public class SecurityController {
 
     private final ISecurityService service;

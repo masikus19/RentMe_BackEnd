@@ -1,14 +1,20 @@
 package com.example.rentme_backend_morgan.business.service.google;
-import com.example.rentme_backend_morgan.business.dto.ResponseDto.*;
+
+import com.example.rentme_backend_morgan.business.dto.ResponseDto.AddressGoogleDto;
+import com.example.rentme_backend_morgan.business.dto.ResponseDto.Candidates;
 import com.example.rentme_backend_morgan.business.dto.fromFront.RealtyObjectDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.RequestEntity;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
+
 import java.net.URI;
 import java.net.URISyntaxException;
-import static com.example.rentme_backend_morgan.business.bussinesChecks.BussinesChecks.*;
+
+import static com.example.rentme_backend_morgan.business.bussinesChecks.BussinesChecks.checkAddress;
+
 
 public class ConfigRestForGoogle {
 

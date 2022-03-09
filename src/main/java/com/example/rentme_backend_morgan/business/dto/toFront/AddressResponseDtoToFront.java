@@ -1,4 +1,4 @@
-package com.example.rentme_backend_morgan.business.dto.toFront;
+package application.business.dto.toFront;
 
 import lombok.*;
 

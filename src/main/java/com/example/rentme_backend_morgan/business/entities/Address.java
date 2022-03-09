@@ -36,7 +36,7 @@ public class Address {
     double lat;
     double lng;
 
-    @OneToMany(mappedBy = "address",fetch =FetchType.EAGER)
+    @OneToMany(mappedBy = "address", cascade = CascadeType.ALL)
     List<RealtyObject> realtyObjects;
 
     public Address(String fullAddressId,

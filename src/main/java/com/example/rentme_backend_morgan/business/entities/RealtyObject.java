@@ -3,16 +3,15 @@ package com.example.rentme_backend_morgan.business.entities;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @NoArgsConstructor
 @Getter
-//@Setter
-//@EqualsAndHashCode(of = {"id"})
-@Entity
-@Table(name = "realtyobject")
+@Entity(name = "realtyobject")
+//@Table(name = "realtyobject")
 public class RealtyObject {
 
     @Id
@@ -40,22 +39,22 @@ public class RealtyObject {
     @Column(name = "avatar_photo", columnDefinition = "MEDIUMTEXT")
     String avatarPhoto;//TODO -1
 
-    @OneToMany(mappedBy = "realtyObject")
+    @OneToMany(mappedBy = "realtyObject", cascade = CascadeType.ALL)
     Set<Announcement> announcement;
 
-    @OneToMany(mappedBy = "realtyObject", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "realtyObject", cascade = CascadeType.ALL)
     List<Photo> photo;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     Address address;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     TypeOfRealtyObject typeOfRealtyObject;
 
     @ManyToOne
     Owner owner;
 
-    @ManyToMany(mappedBy = "realtyObjects")
+    @ManyToMany(mappedBy = "realtyObjectss", cascade = CascadeType.ALL)
     Set<Amenitie> amenities = new HashSet<>();
 
     public RealtyObject(
@@ -66,9 +65,8 @@ public class RealtyObject {
             int size,
             int floor,
             int bedrooms,
-            String avatarPhoto
-//          TypeOfRealtyObject typeOfRealtyObject,
-//          Set<Amenitie> amenities,
+            String avatarPhoto,
+            TypeOfRealtyObject typeOfRealtyObject
     ) {
         this.address = address;
         this.nameOfRentObject = nameOfRentObject;
@@ -78,7 +76,6 @@ public class RealtyObject {
         this.apptNumber = apptNumber == null ? "" : apptNumber;
         this.owner = owner;
         this.avatarPhoto = avatarPhoto;
-//      this.typeOfRealtyObject = typeOfRealtyObject;
-//      this.amenities = amenities;
+        this.typeOfRealtyObject = typeOfRealtyObject;
     }
 }

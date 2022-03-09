@@ -1,8 +1,7 @@
 package com.example.rentme_backend_morgan.business.controllers;
 
-
 import com.example.rentme_backend_morgan.business.dto.fromFront.*;
-import com.example.rentme_backend_morgan.business.service.interfaces.*;
+import com.example.rentme_backend_morgan.business.service.interfaces.IOwner;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
@@ -15,6 +14,7 @@ import static com.example.rentme_backend_morgan.business.api.BusinessApiEndPoint
 @RequiredArgsConstructor
 @RequestMapping(OWNER)
 @Valid
+@CrossOrigin
 public class OwnerController {
 
     private final IOwner iOwner;

@@ -10,11 +10,14 @@ import lombok.*;
 public class Candidates {
 
     @JsonProperty("formatted_address")
-    public String formatted_address;
+    private String formatted_address;
+
     @JsonProperty("geometry")
-    public Geometry geometry;
+    private Geometry geometry;
+
     @JsonProperty("name")
-    public String name;
+    private String name;
+
     @JsonProperty("types")
-    public String[] types;
+    private String[] types;
 }

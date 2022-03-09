@@ -21,8 +21,8 @@ public class TypeOfRealtyObject {
 	@Column(length=100)
 	String name;
 	
-	@OneToMany(mappedBy = "typeOfRealtyObject")
-	Set<RealtyObject> realtyObjects = new HashSet<>();
+	@OneToMany(mappedBy = "typeOfRealtyObject",cascade = CascadeType.ALL)
+	Set<RealtyObject> realtyObjects;
 
 	public TypeOfRealtyObject(String name) {
 		this.name = name;

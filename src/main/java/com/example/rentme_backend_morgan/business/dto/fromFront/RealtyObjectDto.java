@@ -13,6 +13,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include;
 @Valid
 public class RealtyObjectDto {
 
+    @Size(min = 5, max = 50)
     String loginOwner;
 
     @Size(min = 5, max = 50)
@@ -31,16 +32,20 @@ public class RealtyObjectDto {
     @Min(1) @Max(500)
     int numberHouse;
 
+    @JsonInclude(Include.NON_NULL)
     @NotNull
     @Pattern(regexp = "[A-Za-z]+")
     String nameRentObject;
 
+    @JsonInclude(Include.NON_NULL)
     @NotNull @Min(1) @Max(1500)
     int size;
 
+    @JsonInclude(Include.NON_NULL)
     @NotNull @Min(1) @Max(300)
     int floor;
 
+    @JsonInclude(Include.NON_NULL)
     @NotNull @Min(1) @Max(50)
     int rooms;
 
@@ -60,4 +65,12 @@ public class RealtyObjectDto {
 
     @JsonInclude(Include.NON_NULL)
     List<String> photos;
+
+    @JsonInclude(Include.NON_NULL)
+    String typeOfRealtyObject;
+
+    @JsonInclude(Include.NON_NULL)
+    List<String> amenities;
+
+
 }

@@ -1,4 +1,4 @@
-package com.example.rentme_backend_morgan.business.service.interfaces;
+package application.business.service.interfaces;
 
 public interface IAdmin {
 
