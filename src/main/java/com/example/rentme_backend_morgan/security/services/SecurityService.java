@@ -8,7 +8,7 @@ import com.example.rentme_backend_morgan.security.dto.RegisterDto;
 import com.example.rentme_backend_morgan.security.entities.*;
 import com.example.rentme_backend_morgan.security.repo.AccountRepo;
 import com.example.rentme_backend_morgan.security.repo.PasswordRepo;
-import com.mysql.cj.jdbc.exceptions.MysqlDataTruncation;
+//import com.mysql.cj.jdbc.exceptions.MysqlDataTruncation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;

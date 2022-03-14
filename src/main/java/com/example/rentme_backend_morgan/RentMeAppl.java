@@ -4,10 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class RentMeBackEndMorganApplication {
+public class RentMeAppl {
 
     public static void main(String[] args) {
-        SpringApplication.run(RentMeBackEndMorganApplication.class, args);
+        SpringApplication.run(RentMeAppl.class, args);
     }
-
 }

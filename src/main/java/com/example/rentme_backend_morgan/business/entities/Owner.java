@@ -36,7 +36,8 @@ public class Owner {
     @Column(name = "about_me")
     String aboutMe;
 
-    @Column(name = "photo_owner", columnDefinition = "MEDIUMTEXT")
+    //    @Column(name = "photo_owner", columnDefinition = "MEDIUMTEXT")
+    @Column(name = "photo_owner")
     String photoOwner;
 
     @OneToMany(mappedBy = "owner")

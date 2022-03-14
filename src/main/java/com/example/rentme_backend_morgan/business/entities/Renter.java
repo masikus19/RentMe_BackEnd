@@ -4,6 +4,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.scheduling.annotation.Scheduled;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -33,13 +34,13 @@ public class Renter {
     @Column(name = "is_revoked", updatable = true)
     boolean isRevoked;
 
-//    @Email
+    //@Email
     String email;
 
     @Column(name = "about_me")
     String aboutMe;
 
-//    @Column(name = "photo_renter", columnDefinition = "MEDIUMTEXT")
+    //@Column(name = "photo_renter", columnDefinition = "MEDIUMTEXT")
     @Column(name = "photo_renter")
     String photoRenter;
 

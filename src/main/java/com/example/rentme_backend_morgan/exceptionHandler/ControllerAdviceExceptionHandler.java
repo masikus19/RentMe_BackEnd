@@ -2,8 +2,8 @@ package com.example.rentme_backend_morgan.exceptionHandler;
 
 
 import com.example.rentme_backend_morgan.security.services.BadRequestException;
-import com.mysql.cj.jdbc.exceptions.MysqlDataTruncation;
-import org.postgresql.util.PSQLException;
+//import com.mysql.cj.jdbc.exceptions.MysqlDataTruncation;
+//import org.postgresql.util.PSQLException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -32,16 +32,16 @@ public class ControllerAdviceExceptionHandler extends RuntimeException {
         return new ResponseEntity(ex.getLocalizedMessage() + " is does not match requirements ", HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler({SQLException.class})
-    public ResponseEntity exceptionHandlerValid(PSQLException ex) {
-        String[] err = ex.getMessage().split("Detail:");
-        return new ResponseEntity(err[1], HttpStatus.BAD_REQUEST);
-    }
+//    @ExceptionHandler({SQLException.class})
+//    public ResponseEntity exceptionHandlerValid(PSQLException ex) {
+//        String[] err = ex.getMessage().split("Detail:");
+//        return new ResponseEntity(err[1], HttpStatus.BAD_REQUEST);
+//    }
 
-    @ExceptionHandler({MysqlDataTruncation.class})
-    public ResponseEntity exceptionHandlerSQL(MysqlDataTruncation ex) {
-        String[] err = ex.getMessage().split("Detail:");
-        return new ResponseEntity(err[1], HttpStatus.BAD_REQUEST);
-    }
+//    @ExceptionHandler({MysqlDataTruncation.class})
+//    public ResponseEntity exceptionHandlerSQL(MysqlDataTruncation ex) {
+//        String[] err = ex.getMessage().split("Detail:");
+//        return new ResponseEntity(err[1], HttpStatus.BAD_REQUEST);
+//    }
 
 }

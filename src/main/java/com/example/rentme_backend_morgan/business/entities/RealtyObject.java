@@ -10,8 +10,8 @@ import java.util.Set;
 
 @NoArgsConstructor
 @Getter
+@Setter
 @Entity(name = "realtyobject")
-//@Table(name = "realtyobject")
 public class RealtyObject {
 
     @Id
@@ -36,7 +36,8 @@ public class RealtyObject {
     @Column(name = "appt_number")
     String apptNumber; //TODO -1
 
-    @Column(name = "avatar_photo", columnDefinition = "MEDIUMTEXT")
+//    @Column(name = "avatar_photo", columnDefinition = "MEDIUMTEXT")
+    @Column(name = "avatar_photo")
     String avatarPhoto;//TODO -1
 
     @OneToMany(mappedBy = "realtyObject", cascade = CascadeType.ALL)
@@ -54,8 +55,8 @@ public class RealtyObject {
     @ManyToOne
     Owner owner;
 
-    @ManyToMany(mappedBy = "realtyObjectss", cascade = CascadeType.ALL)
-    Set<Amenitie> amenities = new HashSet<>();
+    @ManyToMany(cascade = CascadeType.ALL)
+    Set<Amenitie> amenitiess = new HashSet<>();
 
     public RealtyObject(
             Address address,

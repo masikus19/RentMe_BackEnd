@@ -90,31 +90,20 @@ public class OwnerLogica implements IOwner {
 
         savePhotos(realtyObject, dto.getPhotos());
 
-        saveObjectAment(realtyObject, dto.getAmenities());
+        saveObjectAmenit(realtyObject, dto.getAmenities());
 
         return "Realty object is added to DB";
     }
 
-    @Transactional
-            (transactionManager = "businessTransactionManager")
-    public void saveObjectAment(RealtyObject realtyObject, List<String> amenities) {
-        amenities.forEach(elem ->
-                {
-                    amenitiesRepo.findAmenitieByName(elem).getRealtyObjectss().add(realtyObject);
-                }
-        );
+    public void saveObjectAmenit(RealtyObject realtyObject, Set<String> amenities) {
 
         amenities.forEach(elem -> {
-            Amenitie amenitie =
-                    new Amenitie(elem);
-            amenitie.getRealtyObjectss().add(realtyObject);
-            amenitiesRepo.save(amenitie);
+            realtyObject.getAmenitiess().add(amenitiesRepo.findAmenitieByName(elem));
         });
+
     }
 
-    @Transactional
-            (transactionManager = "businessTransactionManager")
-    public void saveAmenities(List<String> amenities) {
+    public void saveAmenities(Set<String> amenities) {
         amenities.forEach(elem -> {
             amenitiesRepo.save(new Amenitie(elem));
         });

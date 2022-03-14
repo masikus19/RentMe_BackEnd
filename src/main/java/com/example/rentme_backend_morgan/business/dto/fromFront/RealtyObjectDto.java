@@ -6,6 +6,7 @@ import lombok.Getter;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
+import java.util.Set;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -70,7 +71,6 @@ public class RealtyObjectDto {
     String typeOfRealtyObject;
 
     @JsonInclude(Include.NON_NULL)
-    List<String> amenities;
-
+    Set<String> amenities;
 
 }

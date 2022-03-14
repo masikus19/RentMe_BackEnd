@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.example</groupId>
-    <artifactId>RentMe_BackEnd_Morgan</artifactId>
+    <artifactId>backendrentme</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>RentMe_BackEnd_Morgan</name>
-    <description>RentMe_BackEnd_Morgan</description>
+    <name>backendrentme</name>
+    <description>backendrentme</description>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -24,6 +24,7 @@
         <hibernate.validator>5.4.1.Final</hibernate.validator>
         <spring.version.orm>5.1.0.RELEASE</spring.version.orm>
         <lombok.version>1.18.22</lombok.version>
+        <docker.image.prefix>spring-boot-tutorialspoint</docker.image.prefix>
     </properties>
 
     <dependencies>
@@ -103,11 +104,13 @@
             <version>42.3.1</version>
         </dependency>
 
-             <dependency>
-                 <groupId>mysql</groupId>
-                 <artifactId>mysql-connector-java</artifactId>
-                 <version>8.0.22</version>
-             </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>mysql</groupId>-->
+        <!--            <artifactId>mysql-connector-java</artifactId>-->
+        <!--            <version>8.0.22</version>-->
+        <!--        </dependency>-->
+
+
         <!-- Hibernate Validator -->
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -121,5 +124,30 @@
             <version>2.4.4</version>
         </dependency>
     </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>1.0.0</version>
 
+                <configuration>
+                    <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+                    <dockerDirectory>src/main/docker</dockerDirectory>
+                    <resources>
+                        <resource>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+
+    </build>
 </project>

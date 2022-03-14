@@ -1,5 +1,6 @@
 package com.example.rentme_backend_morgan.business.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,17 +15,17 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
-//@EqualsAndHashCode(exclude = "realtyObjects")
+//@EqualsAndHashCode(exclude = "realtyObjects")`
 
-@Entity
-@Table(name = "amenities")
+@Entity(name = "amenities")
 public class Amenitie {
 
     @Id
     @Column(length = 100)
     String name;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "amenitiess")
+    @JsonIgnore
     Set<RealtyObject> realtyObjectss = new HashSet<>();
 
     public Amenitie(String name) {

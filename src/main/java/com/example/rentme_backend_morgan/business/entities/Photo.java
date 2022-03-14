@@ -23,7 +23,8 @@ public class Photo {
     @ManyToOne(cascade = CascadeType.ALL)
     RealtyObject realtyObject;
 
-    @Column(name = "photo", columnDefinition = "MEDIUMTEXT")
+    //    @Column(name = "photo", columnDefinition = "MEDIUMTEXT")
+    @Column(name = "photo")
     String photo;
 
     public Photo(RealtyObject realtyObject, String photo) {
